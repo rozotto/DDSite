@@ -1,0 +1,2 @@
+# GameWise
+Gamified educational platform
