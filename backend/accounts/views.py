@@ -1,49 +1,53 @@
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth import login
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 
-
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
-
-
+@csrf_exempt
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()  # Сохраняем пользователя в базе данных
-            messages.success(request, 'Ваш аккаунт был создан! Вы можете войти.')
-            return redirect('login')  # Перенаправляем на страницу входа
-        else:
-            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            password = data.get('password')
+            email = data.get('email')
+
+            if not username or not password or not email:
+                return JsonResponse({'error': 'All fields are required'}, status=400)
+
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({'error': 'Username already taken'}, status=400)
+
+            user = User.objects.create_user(username=username, password=password, email=email)
+            user.save()
+
+            return JsonResponse({'message': 'User registered successfully'}, status=201)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
     else:
-        form = UserCreationForm()
-
-    return render(request, 'accounts/register.html', {'form': form})
+        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
 
 
+@csrf_exempt
 def login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            password = data.get('password')
 
+            if not username or not password:
+                return JsonResponse({'error': 'Username and password are required'}, status=400)
+
+            user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)  # Авторизация пользователя
-                return redirect('home')  # Перенаправляем на главную страницу
+                login(request, user)
+                return JsonResponse({'message': 'Login successful'}, status=200)
             else:
-                messages.error(request, "Неверное имя пользователя или пароль.")
-        else:
-            messages.error(request, "Пожалуйста, исправьте ошибки в форме.")
+                return JsonResponse({'error': 'Invalid credentials'}, status=401)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
     else:
-        form = AuthenticationForm()
-
-    return render(request, 'accounts/login.html', {'form': form})
-
-def logout_view(request):
-    logout(request)  # Выход из системы
-    return redirect('home')  # Перенаправляем на главную страницу
+        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
