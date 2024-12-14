@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import Home from './components/Home';
+import Register from './components/Register';
+import Login from './components/Login';
 
 function App() {
-    const [currentTime, setCurrentTime] = useState(0);
-    const [currentDate, setCurrentDate] = useState(0);
-    useEffect(() => {
-        fetch(' http://127.0.0.1:8000/').then(res => res.json()).then(data => {
-            setCurrentTime(data.time);
-            setCurrentDate(data.date)
-        });
-    }, []);
-    return (
-        <div className="App">
-            <header className="App-header">
-                <p>The date is {currentDate} and the time is {currentTime}.</p> <br/>
+  const [isLogin, setIsLogin] = useState(false);
 
-            </header>
-        </div>
-    );
+  return (
+    <Router>
+      <div className="App">
+        <h1>{isLogin ? 'Login' : 'Register'}</h1>
+
+        {isLogin ? <Login /> : <Register />}
+
+        <button onClick={() => setIsLogin(!isLogin)}>
+          Switch to {isLogin ? 'Register' : 'Login'}
+        </button>
+
+      </div>
+    </Router>
+  );
 }
 
 export default App;
-
