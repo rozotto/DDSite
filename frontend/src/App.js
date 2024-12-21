@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { UserProvider } from './components/UserContext';
 import Home from './components/Home';
-import Register from './components/Register';
 import Login from './components/Login';
-import Profile from './components/Profile'
+import Register from './components/Register';
+import Profile from './components/Profile';
 
 function App() {
     return (
-        <Router>
-            <div className="App">
+        <UserProvider>
+            <Router>
                 <Routes>
-                    <Route path="/" element={<Navigate to="/home" />} />
                     <Route path="/home" element={<Home />} />
-                    <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<Profile />} />
                 </Routes>
-            </div>
-        </Router>
+            </Router>
+        </UserProvider>
     );
 }
 
 export default App;
-

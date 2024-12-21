@@ -1,38 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
+import { UserContext } from './UserContext';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { logout } = useContext(UserContext);
+
+    const handleLogout = () => {
+        logout();
+        window.location.reload();
+    };
 
     useEffect(() => {
-        const fetchProfile = async () => {
-            const userid = localStorage.getItem('userid');
+        const fetchProfile = () => {
+            const storedUser = localStorage.getItem('user');
 
-            if (!userid) {
+            if (!storedUser) {
                 setError('Пользователь не найден. Авторизуйтесь.');
                 setLoading(false);
                 return navigate('/login');
             }
 
-            try {
-                const response = await fetch(`http://127.0.0.1:8000/accounts/api/profile/?userid=${userid}`);
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setUser(data);
-                } else {
-                    const errorData = await response.json();
-                    setError(errorData.error || 'Ошибка загрузки данных профиля.');
-                }
-            } catch (err) {
-                setError('Ошибка соединения с сервером.');
-            } finally {
-                setLoading(false);
-            }
+            const userData = JSON.parse(storedUser);
+            setUser(userData);
+            setLoading(false);
         };
 
         fetchProfile();
@@ -48,7 +43,7 @@ const Profile = () => {
 
     return (
         <div className="profile-container">
-            <h1>Profile Page</h1>
+            <h1>Страница профиля</h1>
             {user ? (
                 <>
                     <img
@@ -56,8 +51,11 @@ const Profile = () => {
                         alt="Profile"
                         className="profile-photo-large"
                     />
-                    <h1>{user.username}</h1>
+                    <h2>{user.username}</h2>
                     <p>Email: {user.email}</p>
+                    <div className="dropdown-menu">
+                        <button className="logout-button" onClick={handleLogout}>Выйти</button>
+                    </div>
                 </>
             ) : (
                 <p>Данные профиля не найдены.</p>

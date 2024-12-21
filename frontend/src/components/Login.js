@@ -17,13 +17,12 @@ const Login = () => {
             const response = await axios.post('http://127.0.0.1:8000/accounts/login/', formData);
 
             if (response.status === 200) {
-                // Запрос профиля
                 const profileResponse = await axios.get(
                     `http://127.0.0.1:8000/accounts/api/profile/?userid=${response.data.userid}`
                 );
 
                 localStorage.setItem('user', JSON.stringify(profileResponse.data));
-                navigate('/'); // Перенаправление на главную
+                navigate('/home');
             }
         } catch (error) {
             setMessage(error.response?.data?.error || 'Login failed');
@@ -55,4 +54,3 @@ const Login = () => {
 };
 
 export default Login;
-
