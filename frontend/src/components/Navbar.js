@@ -2,23 +2,24 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import './Navbar.css';
+import logo from './logo.jpg';
 
 const Navbar = () => {
     const { user } = useContext(UserContext);
 
     return (
         <nav className="navbar">
-            <div className="logo"></div>
+            <div className="app-container">
+                <header>
+                 <img src={logo} alt="Logo" className="logo" />
+                </header>
+            </div>
             <ul className="nav-links">
                 <li><a href="/catalog">Каталог</a></li>
                 <li><a href="/my-courses">Мои курсы</a></li>
                 <li><a href="/leaderboard">Лидерборд</a></li>
                 <li><a href="/about">О проекте</a></li>
             </ul>
-            <div className="search-container">
-                <input type="text" placeholder="Placeholder" />
-                <button className="search-button">X</button>
-            </div>
             <div className="auth-buttons">
                 {user ? (
                     <div className="profile-dropdown">

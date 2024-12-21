@@ -1,33 +1,34 @@
-/* Общий стиль страницы */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #e7ebf0;
 }
 
-/* Контейнер всей страницы */
 .home-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* Верхняя панель навигации */
 .navbar {
     width: 100%;
     background-color: #d0dae6;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    padding: 0;
 }
 
 .logo {
-    width: 40px;
-    height: 40px;
+    width: 75px;
+    height: 75px;
     background-color: #717dba;
     border-radius: 50%;
+    margin: 0;
+    padding: 0;
+    display: block;
 }
 
 .nav-links {
@@ -51,27 +52,6 @@ body {
     border-bottom: 2px solid #354b76;
 }
 
-.search-container {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.search-container input {
-    padding: 5px;
-    border: 1px solid #d0dae6;
-    border-radius: 3px;
-}
-
-.search-button {
-    background-color: #717dba;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 3px;
-}
-
 .profile-icon {
     width: 40px;
     height: 40px;
@@ -84,7 +64,6 @@ body {
     font-weight: bold;
 }
 
-/* Основной контент */
 .content {
     width: 80%;
     background-color: #b0d7e7;
@@ -108,7 +87,6 @@ body {
     gap: 10px;
 }
 
-/* Кнопки "Вход" и "Регистрация" */
 .auth-button {
     text-decoration: none;
     background-color: #717dba;

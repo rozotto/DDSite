@@ -19,8 +19,8 @@
 }
 
 .profile-container h1 {
-    margin: 10px 0;
     color: #354b76;
+    margin: 0;
 }
 
 .profile-container p {
