@@ -26,3 +26,5 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
 backend/media
+*/migrations/*
+backend/db.sqlite3
