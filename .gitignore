@@ -26,3 +26,7 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
 backend/media
+*/migrations/*
+backend/db.sqlite3
+backend/accounts/__pycache__
+backend/project/__pycache__
