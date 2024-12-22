@@ -1,15 +1,22 @@
 import React from 'react';
 import Navbar from './Navbar';
+import Footer from './Footer';
 import './Home.css';
 
 const Home = () => {
     return (
         <div className="home-container">
             <Navbar />
-
             <div className="content">
-                <h1>Добро пожаловать!!</h1>
+                <div className="text-section">
+                    <h1>Добро пожаловать в мир геймифицированного обучения!</h1>
+                    <p>Мы понимаем, что традиционные методы обучения могут быть скучными и неэффективными. Поэтому мы разработали уникальную систему, которая позволяет вам учиться в своем темпе, устанавливая собственные цели и получая награды за достижения. Наши курсы охватывают широкий спектр тем — от технологий до искусства — и подходят для всех возрастов. Присоединяйтесь к нашему сообществу и откройте для себя новые горизонты знаний в увлекательной форме!</p>
+                </div>
+                <div className="image-section">
+                    <img src={image_anime} alt="картинка" className="profile-image" />
+                </div>
             </div>
+            <Footer />
         </div>
     );
 };

@@ -11,25 +11,27 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="app-container">
                 <header>
-                 <img src={logo} alt="Logo" className="logo" />
+                    <img src={logo} alt="Logo" className="logo" />
+                    <h1 className="project-title">GameWise</h1>
                 </header>
             </div>
+
             <ul className="nav-links">
-                <li><a href="/catalog">Каталог</a></li>
-                <li><a href="/my-courses">Мои курсы</a></li>
-                <li><a href="/leaderboard">Лидерборд</a></li>
-                <li><a href="/about">О проекте</a></li>
-            </ul>
+                <li><Link to="/catalog" className="btn">Каталог</Link></li>
+                <li><Link to="/my-courses" className="btn">Мои курсы</Link></li>
+                <li><Link to="/leaderboard" className="btn">Лидерборд</Link></li>
+                <li><Link to="/about" className="btn">О проекте</Link></li>
+                  </ul>
             <div className="auth-buttons">
                 {user ? (
                     <div className="profile-dropdown">
-                    <Link to={`/profile`}>
-                        <img
-                            src={user.profile_photo || 'default-avatar.png'}
-                            alt="Profile"
-                            className="profile-avatar"
-                        />
-                    </Link>
+                        <Link to={`/profile`}>
+                            <img
+                                src={user.profile_photo || 'default-avatar.png'}
+                                alt="Profile"
+                                className="profile-avatar"
+                            />
+                        </Link>
                     </div>
                 ) : (
                     <div className="auth-buttons">
