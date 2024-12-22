@@ -46,11 +46,6 @@ class CustomUser(AbstractBaseUser):
         return self.is_superuser
 
 
-def validate_start_end_dates(start_date, end_date):
-    if end_date and start_date > end_date:
-        raise ValidationError("Дата начала курса не может быть позже даты окончания.")
-
-
 class Course(models.Model):
     title = models.CharField(max_length=255, unique=True, verbose_name="Название")
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
@@ -67,10 +62,3 @@ class Enrollment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enrollments")
     enrollment_date = models.DateField(auto_now_add=True, verbose_name="Дата записи", null=True, blank=True)
 
-    def clean(self):
-        super().clean()
-        if self.enrollment_date:
-            if self.enrollment_date > timezone.now().date():
-                raise ValidationError("Enrollment date cannot be in the future.")
-        else:
-            raise ValidationError("Enrollment date is required.")

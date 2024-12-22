@@ -126,14 +126,11 @@ def enroll_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     if Enrollment.objects.filter(course=course, user=request.user).exists():
         return JsonResponse({'error': 'You are already enrolled in this course'}, status=400)
-    if course.enrollments.count() >= course.max_participants:
-        return JsonResponse({'error': 'The course is already full'}, status=400)
 
     Enrollment.objects.create(course=course, user=request.user)
     return JsonResponse({'message': f'You have successfully enrolled in {course.title}'}, status=200)
 
 
-#@login_required
 def courses_list(request):
     courses = Course.objects.all().values('id', 'title', 'description', 'tags', 'content')
     return JsonResponse(list(courses), safe=False, status=200)
@@ -148,26 +145,3 @@ def course_detail(request, course_id):
         'tags': course.tags,
         'content': course.content,
     }, status=200)
-
-
-def courses_list_api(request):
-    if request.method == 'GET':
-        courses = CourseSerializer.objects.all()
-        courses_data = list(courses.values())
-        return JsonResponse(courses_data, safe=False)
-
-
-def course_detail_api(request, course_id):
-    if request.method == 'GET':
-        try:
-            course = CourseSerializer.objects.get(id=course_id)
-            course_data = {
-                'id': course.id,
-                'name': course.name,
-                'description': course.description,
-                'created_at': course.created_at,
-                'updated_at': course.updated_at,
-            }
-            return JsonResponse(course_data)
-        except Course.DoesNotExist:
-            return JsonResponse({'error': 'Course not found'}, status=404)

@@ -9,6 +9,4 @@ urlpatterns = [
     path('course/<int:course_id>/', views.course_detail, name='course_detail'),
     path('courses/create/', views.create_course, name='create_course'),
     path('courses/<int:course_id>/enroll/', views.enroll_course, name='enroll_course'),
-    path('api/courses/', views.courses_list_api, name='courses_list_api'),
-    path('api/courses/<int:course_id>/', views.course_detail_api, name='course_detail_api')
 ]

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 const MyCourses = () => {
   const [enrollments, setEnrollments] = useState([]);
@@ -15,6 +17,7 @@ const MyCourses = () => {
 
   return (
     <div className="my-courses">
+      <Navbar />
       <h1>Мои курсы</h1>
       <ul>
         {enrollments.map((enrollment) => (
@@ -25,6 +28,7 @@ const MyCourses = () => {
           </li>
         ))}
       </ul>
+      <Footer />
     </div>
   );
 };
