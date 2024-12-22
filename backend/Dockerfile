@@ -4,9 +4,10 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /backend
 
-RUN pip install django django-cors-headers
-
 COPY . . 
+
+RUN pip install --upgrade pip
+RUN pip install -r ./requirements.txt -v
 
 EXPOSE 8000
 
