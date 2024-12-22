@@ -145,10 +145,12 @@ def user_enrolled_courses(request, user_id):
 
     courses_data = []
     for course in user_courses:
-        courses_data.append({
-            "id": course.id,
-            "title": course.title,
-        })
+        courses_data.append(
+            {
+                "id": course.id,
+                "title": course.title,
+            }
+        )
 
     return JsonResponse({"courses": courses_data}, status=200)
 
