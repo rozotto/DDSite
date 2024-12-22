@@ -40,7 +40,7 @@ const Login = () => {
             <p>{message}</p>
             <div className="switch-container">
                 <p>
-                    Don't have an account?
+                    Don&apos;t have an account?
                     <span
                         style={{ color: "blue", cursor: "pointer", marginLeft: '5px' }}
                         onClick={() => navigate('/register')}
