@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+from django.conf import settings
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
@@ -41,3 +43,39 @@ class CustomUser(AbstractBaseUser):
 
     def has_module_perms(self, a):
         return self.is_superuser
+
+
+def validate_start_end_dates(start_date, end_date):
+    if end_date and start_date > end_date:
+        raise ValidationError("Дата начала курса не может быть позже даты окончания.")
+
+
+class Course(models.Model):
+    title = models.CharField(max_length=255, unique=True, verbose_name="Название")
+    author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
+    description = models.TextField(max_length=500, verbose_name="Описание")
+    tags = models.CharField(max_length=255, verbose_name="Тематика")
+    start_date = models.DateField(verbose_name="Дата начала")
+    end_date = models.DateField(verbose_name="Дата окончания")
+    max_participants = models.PositiveIntegerField(verbose_name="Максимальное количество участников")
+    content = models.TextField(blank=True, null=True)
+
+    def clean(self):
+        validate_start_end_dates(self.start_date, self.end_date)
+
+    def __str__(self):
+        return self.title
+
+
+class Enrollment(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="enrollments")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enrollments")
+    enrollment_date = models.DateField(auto_now_add=True, verbose_name="Дата записи", null=True, blank=True)
+
+    def clean(self):
+        super().clean()
+        if self.enrollment_date:
+            if self.enrollment_date > timezone.now().date():
+                raise ValidationError("Enrollment date cannot be in the future.")
+        else:
+            raise ValidationError("Enrollment date is required.")

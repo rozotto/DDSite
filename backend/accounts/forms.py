@@ -1,5 +1,5 @@
 from django import forms
-from .models import CustomUser
+from .models import CustomUser, Course, Enrollment
 
 
 class RegisterForm(forms.ModelForm):
@@ -17,3 +17,15 @@ class RegisterForm(forms.ModelForm):
         if password != password_confirm:
             raise forms.ValidationError("Passwords don't match")
         return password_confirm
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['title', 'description', 'tags', 'start_date', 'end_date', 'max_participants', 'content']
+
+
+class EnrollmentForm(forms.ModelForm):
+    class Meta:
+        model = Enrollment
+        fields = ['course']

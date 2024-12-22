@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 from django.utils.html import format_html
+from .models import Course, Enrollment
+
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -33,3 +35,7 @@ class CustomUserAdmin(UserAdmin):
             return format_html(f'<img src="{obj.profile_photo.url}" style="width: 50px; height: 50px; border-radius: 25px;" />')
         return "No Image"
     profile_photo_tag.short_description = 'Profile Photo'
+
+
+admin.site.register(Course)
+admin.site.register(Enrollment)
