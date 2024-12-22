@@ -2,6 +2,10 @@ import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import './About.css';
+import cat1 from './cat1.jpg';
+import cat2 from './cat2.jpg';
+import cat3 from './cat3.jpg';
+import cat4 from './cat4.jpg';
 
 const About = () => {
     return (
