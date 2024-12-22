@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.core.exceptions import ValidationError
-from django.utils import timezone
 from django.conf import settings
 
 
@@ -29,12 +27,14 @@ class CustomUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
-    profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
+    profile_photo = models.ImageField(
+        upload_to="profile_photos/", blank=True, null=True
+    )
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
 
     def __str__(self):
         return self.username
@@ -48,7 +48,9 @@ class CustomUser(AbstractBaseUser):
 
 class Course(models.Model):
     title = models.CharField(max_length=255, unique=True, verbose_name="Название")
-    author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
+    author = models.ForeignKey(
+        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
+    )
     description = models.TextField(max_length=500, verbose_name="Описание")
     tags = models.CharField(max_length=255, verbose_name="Тематика")
     content = models.TextField(blank=True, null=True)
@@ -58,7 +60,13 @@ class Course(models.Model):
 
 
 class Enrollment(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="enrollments")
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enrollments")
-    enrollment_date = models.DateField(auto_now_add=True, verbose_name="Дата записи", null=True, blank=True)
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name="enrollments"
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enrollments"
+    )
+    enrollment_date = models.DateField(
+        auto_now_add=True, verbose_name="Дата записи", null=True, blank=True
+    )
 

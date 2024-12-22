@@ -9,11 +9,11 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password', 'profile_photo']
+        fields = ["username", "email", "password", "profile_photo"]
 
     def clean_password_confirm(self):
-        password = self.cleaned_data.get('password')
-        password_confirm = self.cleaned_data.get('password_confirm')
+        password = self.cleaned_data.get("password")
+        password_confirm = self.cleaned_data.get("password_confirm")
         if password != password_confirm:
             raise forms.ValidationError("Passwords don't match")
         return password_confirm
@@ -22,9 +22,10 @@ class RegisterForm(forms.ModelForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['title', 'description', 'tags', 'content']
+        fields = ["title", "description", "tags", "content"]
+
 
 class EnrollmentForm(forms.ModelForm):
     class Meta:
         model = Enrollment
-        fields = ['course']
+        fields = ["course"]

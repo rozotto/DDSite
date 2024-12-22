@@ -9,32 +9,46 @@ from .models import Course, Enrollment
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
 
-    list_display = ('username', 'email', 'profile_photo_tag', 'is_staff', 'is_active')
-    list_filter = ('is_staff', 'is_active')
+    list_display = ("username", "email", "profile_photo_tag", "is_staff", "is_active")
+    list_filter = ("is_staff", "is_active")
 
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password', 'profile_photo')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+        (None, {"fields": ("username", "email", "password", "profile_photo")}),
+        ("Permissions", {"fields": ("is_staff", "is_active")}),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
 
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2', 'profile_photo', 'is_staff', 'is_active'),
-        }),
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "username",
+                    "email",
+                    "password1",
+                    "password2",
+                    "profile_photo",
+                    "is_staff",
+                    "is_active",
+                ),
+            },
+        ),
     )
 
     filter_horizontal = ()
 
-    search_fields = ('username', 'email')
-    ordering = ('username',)
+    search_fields = ("username", "email")
+    ordering = ("username",)
 
     def profile_photo_tag(self, obj):
         if obj.profile_photo:
-            return format_html(f'<img src="{obj.profile_photo.url}" style="width: 50px; height: 50px; border-radius: 25px;" />')
+            return format_html(
+                f'<img src="{obj.profile_photo.url}" style="width: 50px; height: 50px; border-radius: 25px;" />'
+            )
         return "No Image"
-    profile_photo_tag.short_description = 'Profile Photo'
+
+    profile_photo_tag.short_description = "Profile Photo"
 
 
 admin.site.register(Course)

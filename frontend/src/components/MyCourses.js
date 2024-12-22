@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-const MyCourses = () => {
+const MyCourses = ({ userId }) => {
   const [enrollments, setEnrollments] = useState([]);
+  const { user_id } = useParams();
 
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/accounts/api/profile/', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      .get(`http://127.0.0.1:8000/accounts/user/${user_id}/courses/`)
+      .then((response) => {
+        setEnrollments(response.data);
       })
-      .then((response) => setEnrollments(response.data.enrollments))
-      .catch((error) => console.error('Error fetching enrollments:', error));
-  }, []);
+      .catch((error) => console.error('Error fetching course details:', error));
+  }, [user_id]);
 
   return (
     <div className="my-courses">
       <Navbar />
       <h1>Мои курсы</h1>
       <ul>
-        {enrollments.map((enrollment) => (
-          <li key={enrollment.course.id}>
-            <h2>{enrollment.course.title}</h2>
-            <p>{enrollment.course.description}</p>
-            <p>Дата записи: {enrollment.enrollment_date}</p>
+        {enrollments.map((course) => (
+          <li key={course.id}>
+            <h2>{course.title}</h2>
           </li>
         ))}
       </ul>

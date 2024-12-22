@@ -10,9 +10,9 @@ class CourseSerializer:
 
     def _serialize_object(self, obj):
         return {
-            'id': obj.id,
-            'name': obj.name,
-            'description': obj.description,
-            'created_at': obj.created_at.isoformat() if obj.created_at else None,
-            'updated_at': obj.updated_at.isoformat() if obj.updated_at else None,
+            "id": obj.id,
+            "name": obj.name,
+            "description": obj.description,
+            "created_at": obj.created_at.isoformat() if obj.created_at else None,
+            "updated_at": obj.updated_at.isoformat() if obj.updated_at else None,
         }
