@@ -22,8 +22,7 @@ class RegisterForm(forms.ModelForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['title', 'description', 'tags', 'start_date', 'end_date', 'max_participants', 'content']
-
+        fields = ['title', 'description', 'tags', 'content']
 
 class EnrollmentForm(forms.ModelForm):
     class Meta:

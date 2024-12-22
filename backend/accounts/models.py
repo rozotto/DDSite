@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.conf import settings
 
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
         if not email:
@@ -55,13 +56,7 @@ class Course(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(max_length=500, verbose_name="Описание")
     tags = models.CharField(max_length=255, verbose_name="Тематика")
-    start_date = models.DateField(verbose_name="Дата начала")
-    end_date = models.DateField(verbose_name="Дата окончания")
-    max_participants = models.PositiveIntegerField(verbose_name="Максимальное количество участников")
     content = models.TextField(blank=True, null=True)
-
-    def clean(self):
-        validate_start_end_dates(self.start_date, self.end_date)
 
     def __str__(self):
         return self.title

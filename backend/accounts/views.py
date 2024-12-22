@@ -101,36 +101,24 @@ def profile_view(request):
     return JsonResponse(data, status=200)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-@login_required
+@csrf_exempt
 def create_course(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         try:
-            data = json.loads(request.body)
-            title = data.get('title')
-            description = data.get('description')
-            duration = data.get('duration')
-            max_participants = data.get('max_participants')
-
-            if not title or not description or not duration or not max_participants:
-                return JsonResponse({'error': 'All fields are required'}, status=400)
-
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
             course = Course.objects.create(
-                title=title,
-                description=description,
-                duration=duration,
-                max_participants=max_participants
+                title=data.get('title'),
+                description=data.get('description'),
+                tags=data.get('tags'),
+                content=data.get('content'),
+                author=request.user if request.user.is_authenticated else None
             )
-            return JsonResponse({'message': 'Course created successfully', 'course': {
-                'id': course.id,
-                'title': course.title,
-                'description': course.description,
-                'duration': course.duration,
-                'max_participants': course.max_participants,
-            }}, status=201)
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid JSON format'}, status=400)
-    return JsonResponse({'error': 'Invalid request method'}, status=405)
+            course.save()
+            return JsonResponse({"message": "Course created successfully"}, status=201)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 @login_required
@@ -145,9 +133,9 @@ def enroll_course(request, course_id):
     return JsonResponse({'message': f'You have successfully enrolled in {course.title}'}, status=200)
 
 
-@login_required
+#@login_required
 def courses_list(request):
-    courses = Course.objects.all().values('id', 'title', 'description', 'duration', 'max_participants')
+    courses = Course.objects.all().values('id', 'title', 'description', 'tags', 'content')
     return JsonResponse(list(courses), safe=False, status=200)
 
 
@@ -157,16 +145,16 @@ def course_detail(request, course_id):
         'id': course.id,
         'title': course.title,
         'description': course.description,
-        'duration': course.duration,
-        'max_participants': course.max_participants,
+        'tags': course.tags,
+        'content': course.content,
     }, status=200)
 
 
 def courses_list_api(request):
     if request.method == 'GET':
         courses = CourseSerializer.objects.all()
-        courses_data = list(courses.values())  # Преобразуем QuerySet в список словарей
-        return JsonResponse(courses_data, safe=False)  # safe=False позволяет вернуть массив JSON
+        courses_data = list(courses.values())
+        return JsonResponse(courses_data, safe=False)
 
 
 def course_detail_api(request, course_id):
@@ -179,7 +167,7 @@ def course_detail_api(request, course_id):
                 'description': course.description,
                 'created_at': course.created_at,
                 'updated_at': course.updated_at,
-            }  # Сериализуем вручную, указывая нужные поля
+            }
             return JsonResponse(course_data)
         except Course.DoesNotExist:
             return JsonResponse({'error': 'Course not found'}, status=404)
