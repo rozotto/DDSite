@@ -1,6 +1,20 @@
-.about-container {
+.content {
     width: 80%;
+    background-color: #A7CBD9;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
     margin: 20px auto;
+}
+
+.about-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .about-text {
@@ -10,18 +24,16 @@
 
 .about-section {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 40px;
 }
 
 .image-section {
-    flex: 1;
     display: flex;
     justify-content: center;
 }
 
 .text-section {
-    flex: 1;
     padding-left: 20px;
 }
 
@@ -38,4 +50,10 @@
 .reverse .text-section {
     padding-left: 0;
     padding-right: 20px;
+}
+
+.image-section,
+.text-section {
+    flex: 1; 
+    max-width: 400px;
 }
