@@ -1,10 +1,15 @@
 import React from 'react';
+import Navbar from './Navbar';
+import './Home.css';
 
 const Home = () => {
     return (
-        <div>
-            <h1>Welcome to the Home Page!</h1>
-            <p>This is a placeholder for the home page.</p>
+        <div className="home-container">
+            <Navbar />
+
+            <div className="content">
+                <h1>Добро пожаловать!!</h1>
+            </div>
         </div>
     );
 };
