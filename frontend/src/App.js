@@ -5,7 +5,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
-import About from './About';
+import About from './components/About';
 
 function App() {
     return (
