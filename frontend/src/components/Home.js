@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import './Home.css';
+import image_anime from './image_anime.jpg';
 
 const Home = () => {
     return (
