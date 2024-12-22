@@ -9,6 +9,11 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
 ]  # this is the host that Docker uses to run application
+
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+]  # this is the host that Docker uses to run application
 DEBUG = True
 
 # Application definition
