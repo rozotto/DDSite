@@ -10,7 +10,7 @@
 }
 
 .logout-button:hover {
-    background-color: #357ab8;
+    background-color: #5357A6;
 }
 
 .user-actions {
@@ -41,3 +41,35 @@
   padding: 0;
 }
 
+.btn {
+    border-radius: 0px;
+    color: #5357A6;
+    transition: .2s linear;
+    background: transparent;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 15px;
+    border: 2px solid transparent;
+}
+
+.btn:hover {
+    box-shadow: 0px -6px 0 #5357A6 inset;
+}
+
+.navbar-header {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 75px;
+    height: auto;
+    margin-right: 15px;
+}
+
+.project-title {
+    font-size: 24px;
+    color: #5357A6;
+    margin: 0;
+}

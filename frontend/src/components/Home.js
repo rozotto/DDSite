@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar';
+import Footer from './Footer';
 import './Home.css';
 import image_anime from './image_anime.jpg';
 
@@ -16,9 +17,9 @@ const Home = () => {
                     <img src={image_anime} alt="картинка" className="profile-image" />
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };
 
 export default Home;
-
