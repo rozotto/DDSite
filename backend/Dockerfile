@@ -7,7 +7,7 @@ COPY . .
 WORKDIR /backend
 
 RUN pip install --upgrade pip
-RUN pip install Django djangorestframework pika psycopg2-binary Pillow django-cors-headers
+RUN pip install -r requirements.txt
 
 EXPOSE 8000
 

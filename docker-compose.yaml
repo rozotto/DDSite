@@ -1,22 +1,20 @@
 services:
   api:
     build:
-      context: ./api/
-      dockerfile: api.dockerfile
+      context: ./backend
     image: ${DOCKERHUB_USERNAME}/gamewise_api
     ports:
       - "8000:8000"
     volumes:
-      - ./../backend:/backend
+      - ./backend:/backend
     command: bash -c "python manage.py migrate && python manage.py runserver"
 
   web:
     build:
-      context: ./web/
-      dockerfile: web.dockerfile
+      context: ./frontend
     image: ${DOCKERHUB_USERNAME}/gamewise_web
     volumes:
-      - ./../frontend:/frontend
+      - ./frontend:/frontend
     ports:
       - "3000:3000"
     command: bash -c "npm start"

@@ -48,17 +48,17 @@ if [ $api == 1 ]; then
 fi
 
 if [ $((web + api)) == 2 ]; then
-    docker compose -f"./dockers/run-app.yaml" up -d
+    docker compose up -d
     echo "Frontend started succesfully"
     echo "Backend started succesfully"
 elif [ $web == 1 ]; then
-    docker compose -f"./dockers/run-app.yaml" up web -d
+    docker compose up web -d
     echo "Frontend started succesfully"
 elif [ $api == 1 ]; then
-    docker compose -f"./dockers/run-app.yaml" up api -d
+    docker compose up api -d
     echo "Backend started succesfully"
 else
-    docker compose -f"./dockers/run-app.yaml" up -d
+    docker compose up -d
     echo "Frontend started succesfully"
     echo "Backend started succesfully"
 fi
