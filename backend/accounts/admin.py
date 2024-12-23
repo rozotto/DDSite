@@ -5,8 +5,6 @@ from django.utils.html import format_html
 from .models import Course, Enrollment
 
 
-
-
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
