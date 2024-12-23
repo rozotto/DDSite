@@ -1,0 +1,38 @@
+.catalog {
+    padding: 20px;
+}
+
+.course-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.course-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: calc(33% - 20px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.course-image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.course-button {
+    background-color: #FFD4D2;
+    color: #462E4C;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.course-button:hover {
+    background-color: #FF6E79;
+}

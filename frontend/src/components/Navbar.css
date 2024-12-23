@@ -1,14 +1,35 @@
+@font-face {
+    font-family: 'P2';
+    src: url('./fonts/PressStart2P-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Kalnia';
+    src: url('./fonts/Kalnia-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+.custom-font {
+    font-family: 'P2', sans-serif;
+}
+
+.custom-font {
+    font-family: 'Kalnia', sans-serif;
+}
+
 .navbar {
     display: flex;
     align-items: center;
     padding: 10px 20px;
     justify-content: space-between;
-    background-color: #A7CBD9;
+    background-color: #FFD4D2;
 }
 
 .app-container {
-  margin: 0;
-  padding: 0;
+  margin: 10px 20px;
 }
 
 .navbar-header {
@@ -24,8 +45,8 @@
 
 .project-title {
     font-size: 24px;
-    color: #5357A6;
-    margin: 0;
+    color: #462E4C;
+    font-family: 'Kalnia', sans-serif;
 }
 
 .profile-dropdown {
@@ -39,15 +60,12 @@
     width: 75px;
     height: 75px;
     border-radius: 50%;
-    margin-bottom: 20px;
-    margin: 0;
-    padding: 0;
-    display: block;
+    margin-right: 15px;
 }
 
 .auth-button {
     text-decoration: none;
-    background-color: #5357A6;
+    background-color: #462E4C;
     color: white;
     padding: 8px 15px;
     border-radius: 5px;
@@ -56,29 +74,21 @@
     transition: background-color 0.3s;
 }
 
-.user-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 .btn {
     border-radius: 0px;
-    color: #5357A6;
+    color: #462E4C;
     transition: .2s linear;
     background: transparent;
     padding: 10px 15px;
     text-decoration: none;
     display: inline-block;
-    margin-right: 15px;
+    margin-right: 10px;
     border: 2px solid transparent;
+    box-shadow: 0px -6px 0 #462E4C inset;
+    font-family: 'P2', sans-serif;
 }
 
 .btn:hover {
-    box-shadow: 0px -6px 0 #5357A6 inset;
-}
-
-.navbar-header {
-    display: flex;
-    align-items: center;
+    color: #FF6E79;
+    box-shadow: 0px -6px 0 #FF6E79 inset;
 }

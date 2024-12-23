@@ -1,25 +1,38 @@
-.content {
-    width: 80%;
-    background-color: #A7CBD9;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 20px;
-    text-align: center;
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px auto;
-}
-
 .about-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.about-text {
+.content {
+    width: 90%;
+    background-color: #FFD4D2;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
     text-align: center;
-    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.about-text {
+    flex: 1; 
+    padding-right: 20px;
+    text-align: justify;
+}
+
+.about h1 {
+    color: #462E4C;
+    font-size: 35px;
+    font-family: 'P2', sans-serif;
+}
+
+.about p {
+    color: #462E4C;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .about-section {
@@ -35,6 +48,13 @@
 
 .text-section {
     padding-left: 20px;
+    
+}
+
+.about h2 {
+    color: #462E4C;
+    font-size: 28px;
+    font-family: 'P2', sans-serif;
 }
 
 .profile-image {
