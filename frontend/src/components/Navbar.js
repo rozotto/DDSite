@@ -13,9 +13,9 @@ const Navbar = () => {
                 <header>
                     <Link to="/home">
                         <img src={logo} alt="Logo" className="logo" />
-                        <h1 className="project-title">GameWise</h1>
                     </Link>
                 </header>
+                <h1 className="project-title">GameWise</h1>
             </div>
 
             <ul className="nav-links">
@@ -37,8 +37,8 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <div className="auth-buttons">
-                        <Link to="/login" className="auth-button">Вход</Link>
-                        <Link to="/register" className="auth-button">Регистрация</Link>
+                        <Link to="/login" className="auth-button">Log In</Link>
+                        <Link to="/register" className="auth-button">Sign Up</Link>
                     </div>
                 )}
             </div>

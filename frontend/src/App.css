@@ -22,11 +22,12 @@ button {
 }
 
 button {
-    background: #007bff;
-    color: white;
+    background: #FFD4D2;
+    color: #FF6E79;
     cursor: pointer;
 }
 
 button:hover {
-    background: #5357A6;
+    background: #FF6E79;
+    color: #462E4C;
 }
