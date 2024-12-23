@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import './Navbar.css';
-import logo from './logo.jpg';
+import logo from './logo.png';
 
 const Navbar = () => {
     const { user } = useContext(UserContext);
@@ -11,16 +11,18 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="app-container">
                 <header>
-                    <img src={logo} alt="Logo" className="logo" />
-                    <h1 className="project-title">GameWise</h1>
+                    <Link to="/home">
+                        <img src={logo} alt="Logo" className="logo" />
+                        <h1 className="project-title">GameWise</h1>
+                    </Link>
                 </header>
             </div>
 
             <ul className="nav-links">
-                <li><Link to="/catalog" className="btn">Каталог</Link></li>
-                <li><Link to="/my-courses" className="btn">Мои курсы</Link></li>
-                <li><Link to="/leaderboard" className="btn">Лидерборд</Link></li>
-                <li><Link to="/about" className="btn">О проекте</Link></li>
+                <li><Link to="/catalog" className="btn">КАТАЛОГ</Link></li>
+                <li><Link to="/my-courses" className="btn">МОИ КУРСЫ</Link></li>
+                <li><Link to="/leaderboard" className="btn">ЛИДЕРБОРД</Link></li>
+                <li><Link to="/about" className="btn">О ПРОЕКТЕ</Link></li>
             </ul>
             <div className="auth-buttons">
                 {user ? (
