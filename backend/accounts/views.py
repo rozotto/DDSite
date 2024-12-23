@@ -95,6 +95,7 @@ def profile_view(request):
     )
 
     data = {
+        "id": user.id,
         "username": user.username,
         "email": user.email,
         "password": user.password,

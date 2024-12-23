@@ -71,11 +71,8 @@ body {
     padding: 20px;
     margin-top: 20px;
     text-align: center;
-<<<<<<< HEAD
-    display: flex; 
-=======
     display: flex;
->>>>>>> rozotto-main
+    display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 20px auto;
