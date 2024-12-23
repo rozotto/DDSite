@@ -14,7 +14,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/accounts/login/', formData);
+            const response = await axios.post('http://127.0.0.1:8000/accounts/api/login/', formData);
 
             if (response.status === 200) {
                 const profileResponse = await axios.get(
