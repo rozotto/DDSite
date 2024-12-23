@@ -234,3 +234,20 @@ def delete_user(request, user_id):
         except User.DoesNotExist:
             return JsonResponse({"error": "Пользователь не найден."}, status=404, json_dumps_params={"ensure_ascii": False})
     return JsonResponse({"error": "Метод запроса должен быть DELETE."}, status=400, json_dumps_params={"ensure_ascii": False})
+
+
+def count_user_courses(request):
+    users = CustomUser.objects.all()
+
+    user_courses_count = []
+
+    for user in users:
+        course_count = Course.objects.filter(enrollments__user=user).count()
+
+        user_courses_count.append({
+            "user_id": user.id,
+            "username": user.username,
+            "course_count": course_count
+        })
+
+    return JsonResponse({"user_courses_count": user_courses_count}, status=200)
