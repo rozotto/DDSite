@@ -69,4 +69,3 @@ class Enrollment(models.Model):
     enrollment_date = models.DateField(
         auto_now_add=True, verbose_name="Дата записи", null=True, blank=True
     )
-
