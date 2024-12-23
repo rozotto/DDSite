@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.conf import settings
 
 
 class CustomUserManager(BaseUserManager):
@@ -43,3 +44,28 @@ class CustomUser(AbstractBaseUser):
 
     def has_module_perms(self, a):
         return self.is_superuser
+
+
+class Course(models.Model):
+    title = models.CharField(max_length=255, unique=True, verbose_name="Название")
+    author = models.ForeignKey(
+        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    description = models.TextField(max_length=500, verbose_name="Описание")
+    tags = models.CharField(max_length=255, verbose_name="Тематика")
+    content = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Enrollment(models.Model):
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name="enrollments"
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enrollments"
+    )
+    enrollment_date = models.DateField(
+        auto_now_add=True, verbose_name="Дата записи", null=True, blank=True
+    )

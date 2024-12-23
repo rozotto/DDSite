@@ -6,6 +6,10 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
 import About from './components/About';
+import Catalog from './components/Catalog';
+import MyCourses from './components/MyCourses';
+import CourseDetail from './components/CourseDetail';
+import About from './About';
 
 function App() {
     return (
@@ -17,6 +21,9 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/about" element={<About />} />
+                    <Route path="/catalog" element={<Catalog />} />
+                    <Route path="/my-courses" element={<MyCourses />} />
+                    <Route path="/courses/:id" element={<CourseDetail />} />
                 </Routes>
             </Router>
         </UserProvider>

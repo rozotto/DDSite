@@ -21,7 +21,7 @@ const Navbar = () => {
                 <li><Link to="/my-courses" className="btn">Мои курсы</Link></li>
                 <li><Link to="/leaderboard" className="btn">Лидерборд</Link></li>
                 <li><Link to="/about" className="btn">О проекте</Link></li>
-                  </ul>
+            </ul>
             <div className="auth-buttons">
                 {user ? (
                     <div className="profile-dropdown">

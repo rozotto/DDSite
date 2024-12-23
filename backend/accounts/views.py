@@ -3,8 +3,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 from django.core.files.storage import default_storage
-from .models import CustomUser
+from .models import CustomUser, Course, Enrollment
 import json
+from django.contrib.auth.decorators import login_required
 
 
 @csrf_exempt
@@ -100,3 +101,76 @@ def profile_view(request):
         "profile_photo": profile_photo_url,
     }
     return JsonResponse(data, status=200)
+
+
+@csrf_exempt
+def create_course(request):
+    if request.method == "POST":
+        try:
+            body = request.body.decode("utf-8")
+            data = json.loads(body)
+            course = Course.objects.create(
+                title=data.get("title"),
+                description=data.get("description"),
+                tags=data.get("tags"),
+                content=data.get("content"),
+                author=request.user if request.user.is_authenticated else None,
+            )
+            course.save()
+            return JsonResponse({"message": "Course created successfully"}, status=201)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Invalid request method"}, status=405)
+
+
+@login_required
+def enroll_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    if Enrollment.objects.filter(course=course, user=request.user).exists():
+        return JsonResponse(
+            {"error": "You are already enrolled in this course"}, status=400
+        )
+
+    Enrollment.objects.create(course=course, user=request.user)
+    return JsonResponse(
+        {"message": f"You have successfully enrolled in {course.title}"}, status=200
+    )
+
+
+# @login_required
+def user_enrolled_courses(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+
+    user_courses = Course.objects.filter(enrollments__user=user)
+
+    courses_data = []
+    for course in user_courses:
+        courses_data.append(
+            {
+                "id": course.id,
+                "title": course.title,
+            }
+        )
+
+    return JsonResponse({"courses": courses_data}, status=200)
+
+
+def courses_list(request):
+    courses = Course.objects.all().values(
+        "id", "title", "description", "tags", "content"
+    )
+    return JsonResponse(list(courses), safe=False, status=200)
+
+
+def course_detail(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    return JsonResponse(
+        {
+            "id": course.id,
+            "title": course.title,
+            "description": course.description,
+            "tags": course.tags,
+            "content": course.content,
+        },
+        status=200,
+    )
