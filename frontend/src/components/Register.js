@@ -36,7 +36,7 @@ const Register = () => {
         formDataObj.append("profile_photo", formData.profile_photo);
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/accounts/register/', formDataObj, {
+            const response = await axios.post('http://127.0.0.1:8000/accounts/api/register/', formDataObj, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

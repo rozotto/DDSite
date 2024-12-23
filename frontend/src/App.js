@@ -9,7 +9,7 @@ import About from './components/About';
 import Catalog from './components/Catalog';
 import MyCourses from './components/MyCourses';
 import CourseDetail from './components/CourseDetail';
-import About from './About';
+import Leaderboard from './components/Leaderboard';
 
 function App() {
     return (
@@ -24,6 +24,7 @@ function App() {
                     <Route path="/catalog" element={<Catalog />} />
                     <Route path="/my-courses" element={<MyCourses />} />
                     <Route path="/courses/:id" element={<CourseDetail />} />
+                    <Route path="/leaderboard" element={<Leaderboard />} />
                 </Routes>
             </Router>
         </UserProvider>
