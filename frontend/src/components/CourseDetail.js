@@ -11,7 +11,7 @@ const CourseDetail = () => {
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/accounts/course/${id}/`)
+      .get(`http://127.0.0.1:8000/accounts/api/course/${id}/`)
       .then((response) => {
         setCourse(response.data);
         setLoading(false);

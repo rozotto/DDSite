@@ -10,7 +10,7 @@ const Catalog = () => {
 
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/accounts/courses/')
+      .get('http://127.0.0.1:8000/accounts/api/courses/')
       .then((response) => setCourses(response.data))
       .catch((error) => console.error('Error fetching courses:', error));
   }, []);
