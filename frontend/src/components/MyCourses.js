@@ -26,7 +26,7 @@ const MyCourses = () => {
 
         setUser(userData);
 
-        const coursesResponse = await axios.get(`http://127.0.0.1:8000/accounts/user/${userData.id}/courses/`);
+        const coursesResponse = await axios.get(`http://127.0.0.1:8000/accounts/api/user/${userData.id}/courses/`);
         setEnrollments(coursesResponse.data.courses);
       } catch (err) {
         setError('Не удалось загрузить курсы.');

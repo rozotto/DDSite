@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
@@ -175,3 +175,62 @@ def course_detail(request, course_id):
         },
         status=200,
     )
+
+User = get_user_model()
+
+@csrf_exempt
+def edit_user(request, user_id):
+    if request.method in ["POST", "PUT"]:
+        try:
+            user = get_object_or_404(CustomUser, id=user_id)
+
+            if request.content_type == "application/json":
+                data = json.loads(request.body.decode("utf-8"))
+                user.username = data.get("username", user.username)
+                user.email = data.get("email", user.email)
+
+            elif request.content_type.startswith("multipart/form-data"):
+                user.username = request.POST.get("username", user.username)
+                user.email = request.POST.get("email", user.email)
+                if "profile_photos" in request.FILES:
+                    user.profile_photo = request.FILES["profile_photos"]
+
+            user.save()
+
+            return JsonResponse({
+                "status": "success",
+                "message": "User updated successfully",
+                "user_id": user.id
+            })
+
+        except json.JSONDecodeError:
+            return JsonResponse({
+                "status": "error",
+                "message": "Invalid JSON payload",
+                "status_code": 400
+            }, status=400)
+
+        except Exception as e:
+            return JsonResponse({
+                "status": "error",
+                "message": str(e),
+                "status_code": 500
+            }, status=500)
+
+    return JsonResponse({
+        "status": "error",
+        "message": f"{request.method} method not allowed",
+        "status_code": 405
+    }, status=405)
+
+
+@csrf_exempt
+def delete_user(request, user_id):
+    if request.method == "DELETE":
+        try:
+            user = User.objects.get(id=user_id)
+            user.delete()
+            return JsonResponse({"message": "Пользователь успешно удалён."}, status=200, json_dumps_params={"ensure_ascii": False})
+        except User.DoesNotExist:
+            return JsonResponse({"error": "Пользователь не найден."}, status=404, json_dumps_params={"ensure_ascii": False})
+    return JsonResponse({"error": "Метод запроса должен быть DELETE."}, status=400, json_dumps_params={"ensure_ascii": False})
