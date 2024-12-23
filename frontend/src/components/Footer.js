@@ -5,7 +5,7 @@ const Footer = () => {
     return (
         <footer className="footer">
             <div className="footer-content">
-                <p>&copy; {new Date().getFullYear()} alistkova, pepengu, rozotto, ivanuilC. Все права защищены.</p>
+                <p>&copy; {new Date().getFullYear()} alistkova, pepengu, rozotto, ivanuilC</p>
                 <div className="footer-links">
                     <a href="#about">О нас</a>
                     <a href="#contact">Контакты</a>

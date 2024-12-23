@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import Catalog from './Catalog';
+import './Catalog.css';
 import math from './math.jpg';
 
 const Catalog = () => {

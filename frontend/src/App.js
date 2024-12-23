@@ -9,7 +9,6 @@ import About from './components/About';
 import Catalog from './components/Catalog';
 import MyCourses from './components/MyCourses';
 import CourseDetail from './components/CourseDetail';
-import About from './About';
 
 function App() {
     return (
