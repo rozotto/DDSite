@@ -1,6 +1,6 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #E1E6EF;
 }
 
 form {
@@ -28,5 +28,5 @@ button {
 }
 
 button:hover {
-    background: #0056b3;
+    background: #5357A6;
 }

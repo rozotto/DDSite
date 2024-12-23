@@ -19,21 +19,19 @@ class CustomUserAdmin(UserAdmin):
     )
 
     add_fieldsets = (
-        (
-            None,
-            {
-                "classes": ("wide",),
-                "fields": (
-                    "username",
-                    "email",
-                    "password1",
-                    "password2",
-                    "profile_photo",
-                    "is_staff",
-                    "is_active",
-                ),
-            },
-        ),
+        None,
+        {
+            "classes": ("wide",),
+            "fields": (
+                "username",
+                "email",
+                "password1",
+                "password2",
+                "profile_photo",
+                "is_staff",
+                "is_active",
+            ),
+        },
     )
 
     filter_horizontal = ()
