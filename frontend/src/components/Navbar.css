@@ -31,8 +31,7 @@
 
 .app-container {
     display: flex;
-    text-decoration: none;
-    margin-left: 20px;
+    text-decoration: none;  
 }
 
 .navbar ul {

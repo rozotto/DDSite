@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="footer-content">
                 <p>&copy; {new Date().getFullYear()} alistkova, pepengu, rozotto, ivanuilC</p>
                 <div className="footer-links">
-                    <a href="#about">О нас</a>
+                    <a href="/about">О нас</a>
                     <a href="#contact">Контакты</a>
                 </div>
             </div>

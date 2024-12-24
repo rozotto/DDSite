@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import './CourseDetail.css';
 
 const CourseDetail = () => {
   const { id } = useParams();
@@ -19,15 +20,17 @@ const CourseDetail = () => {
       .catch((error) => console.error('Error fetching course details:', error));
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className="loading">Загрузка...</div>;
 
   return (
     <div className="course-detail">
-    <Navbar />
-      <h1>{course.title}</h1>
-      <p>{course.description}</p>
-      <p>Содержание курса:</p>
-      <div>{course.content}</div>
+      <Navbar />
+      <div className="course-content">
+        <h1>{course.title}</h1>
+        <p>{course.description}</p>
+        <h2>Содержание курса:</h2>
+        <div className="course-content-details">{course.content}</div>
+      </div>
       <Footer />
     </div>
   );

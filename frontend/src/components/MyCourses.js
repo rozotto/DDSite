@@ -3,6 +3,9 @@ import axios from 'axios';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
+import './MyCourses.css';
+import './Catalog.css';
+import math from './math.jpg';
 
 const MyCourses = () => {
   const [user, setUser] = useState(null);
@@ -49,18 +52,21 @@ const MyCourses = () => {
   return (
     <div className="my-courses">
       <Navbar />
+      <div className='my-courses-content'>
       <h1>Мои курсы</h1>
-      <ul>
-        {enrollments.length > 0 ? (
-          enrollments.map((course) => (
-            <li key={course.id} onClick={() => handleCourseClick(course.id)}>
+        <div className="courses-list">
+          {enrollments.length > 0 ? (
+            enrollments.map((course) => (
+              <div key={course.id} className="course-card">
+                <img src={math} alt={course.title} className="course-image" />
                 <h2>{course.title}</h2>
-            </li>
-          ))
-        ) : (
-          <p>У вас пока нет курсов.</p>
-        )}
-      </ul>
+              </div>
+            ))
+          ) : (
+            <p>У вас пока нет курсов.</p>
+          )}
+        </div>
+      </div>
       <Footer />
     </div>
   );

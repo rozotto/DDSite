@@ -1,0 +1,37 @@
+.my-courses {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.my-courses-content {
+    width: 90%;
+    min-height: 100vh;
+    display: flex; 
+    flex-direction: column;
+    margin: 20px auto;
+    background: linear-gradient(to bottom, #FFD4D2, #FF6E79);
+    border-radius: 10px;
+}
+
+.my-courses-content h1 {
+    text-align: center;
+    margin: 20px;
+    font-family: 'P2', sans-serif;
+    color: #462E4C;
+    margin-bottom: 20px;
+}
+
+.courses-list {
+    width: 90%;
+    min-height: 100vh;
+    display: flex; 
+    margin: 20px auto;
+    border-radius: 10px;
+    padding: 20px;
+    flex-wrap: wrap;
+    gap: 33.33px;
+    font-family: 'P2', sans-serif;
+}
