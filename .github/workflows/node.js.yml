@@ -10,21 +10,37 @@ jobs:
   build_and_test:
     runs-on: ubuntu-latest
 
-    container:
-      image: pepengu/gamewise_web:latest
-      ports:
-        - "3000:3000"
-      volumes:
-        - ./frontend:/frontend
-
     steps:
       - uses: actions/checkout@v4
       - name: Build
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          CI: true
         working-directory: frontend
         run: |
-             npm run build
+             docker compose run web npm run build 
 
       - name: Run Tests
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          CI: true
         working-directory: frontend
         run: |
-             npm test
+             docker compose run web npm test
+
+  run-linters:
+    name: Run linters
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Run linters
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        working-directory: backend
+        run: |
+          docker compose run web npx eslint ./
+

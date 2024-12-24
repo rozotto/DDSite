@@ -176,7 +176,9 @@ def course_detail(request, course_id):
         status=200,
     )
 
+
 User = get_user_model()
+
 
 @csrf_exempt
 def edit_user(request, user_id):
@@ -197,31 +199,37 @@ def edit_user(request, user_id):
 
             user.save()
 
-            return JsonResponse({
-                "status": "success",
-                "message": "User updated successfully",
-                "user_id": user.id
-            })
+            return JsonResponse(
+                {
+                    "status": "success",
+                    "message": "User updated successfully",
+                    "user_id": user.id,
+                }
+            )
 
         except json.JSONDecodeError:
-            return JsonResponse({
-                "status": "error",
-                "message": "Invalid JSON payload",
-                "status_code": 400
-            }, status=400)
+            return JsonResponse(
+                {
+                    "status": "error",
+                    "message": "Invalid JSON payload",
+                    "status_code": 400,
+                },
+                status=400,
+            )
 
         except Exception as e:
-            return JsonResponse({
-                "status": "error",
-                "message": str(e),
-                "status_code": 500
-            }, status=500)
+            return JsonResponse(
+                {"status": "error", "message": str(e), "status_code": 500}, status=500
+            )
 
-    return JsonResponse({
-        "status": "error",
-        "message": f"{request.method} method not allowed",
-        "status_code": 405
-    }, status=405)
+    return JsonResponse(
+        {
+            "status": "error",
+            "message": f"{request.method} method not allowed",
+            "status_code": 405,
+        },
+        status=405,
+    )
 
 
 @csrf_exempt
@@ -230,10 +238,22 @@ def delete_user(request, user_id):
         try:
             user = User.objects.get(id=user_id)
             user.delete()
-            return JsonResponse({"message": "Пользователь успешно удалён."}, status=200, json_dumps_params={"ensure_ascii": False})
+            return JsonResponse(
+                {"message": "Пользователь успешно удалён."},
+                status=200,
+                json_dumps_params={"ensure_ascii": False},
+            )
         except User.DoesNotExist:
-            return JsonResponse({"error": "Пользователь не найден."}, status=404, json_dumps_params={"ensure_ascii": False})
-    return JsonResponse({"error": "Метод запроса должен быть DELETE."}, status=400, json_dumps_params={"ensure_ascii": False})
+            return JsonResponse(
+                {"error": "Пользователь не найден."},
+                status=404,
+                json_dumps_params={"ensure_ascii": False},
+            )
+    return JsonResponse(
+        {"error": "Метод запроса должен быть DELETE."},
+        status=400,
+        json_dumps_params={"ensure_ascii": False},
+    )
 
 
 def count_user_courses(request):
@@ -244,10 +264,12 @@ def count_user_courses(request):
     for user in users:
         course_count = Course.objects.filter(enrollments__user=user).count()
 
-        user_courses_count.append({
-            "user_id": user.id,
-            "username": user.username,
-            "course_count": course_count
-        })
+        user_courses_count.append(
+            {
+                "user_id": user.id,
+                "username": user.username,
+                "course_count": course_count,
+            }
+        )
 
     return JsonResponse({"user_courses_count": user_courses_count}, status=200)
