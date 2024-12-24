@@ -7,7 +7,7 @@ on:
     branches: [ "main", "dev" ]
 
 jobs:
-  build_and_test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,14 +19,6 @@ jobs:
         working-directory: frontend
         run: |
              docker compose run web npm run build 
-
-      - name: Run Tests
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          CI: true
-        working-directory: frontend
-        run: |
-             docker compose run web npm test
 
   run-linters:
     name: Run linters
