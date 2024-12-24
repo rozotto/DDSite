@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -7,6 +7,7 @@ import './CourseDetail.css';
 
 const CourseDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -30,6 +31,10 @@ const CourseDetail = () => {
         <p>{course.description}</p>
         <h2>Содержание курса:</h2>
         <div className="course-content-details">{course.content}</div>
+        <div className="course-buttons">
+          <button onClick={() => navigate(`/courses/${id}/add-form`)}>Добавить форму</button>
+          <button onClick={() => navigate(`/courses/${id}/quiz`)}>Пройти тест</button>
+        </div>
       </div>
       <Footer />
     </div>

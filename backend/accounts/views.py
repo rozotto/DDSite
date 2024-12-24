@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 from django.core.files.storage import default_storage
-from .models import CustomUser, Course, Enrollment
+from .models import CustomUser, Course, Enrollment, Option, Question, QuizResult
 import json
 from django.contrib.auth.decorators import login_required
 
@@ -125,6 +125,7 @@ def create_course(request):
 
 
 @login_required
+@csrf_exempt
 def enroll_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     if Enrollment.objects.filter(course=course, user=request.user).exists():
@@ -273,3 +274,87 @@ def count_user_courses(request):
         )
 
     return JsonResponse({"user_courses_count": user_courses_count}, status=200)
+
+
+@csrf_exempt
+def add_form(request, course_id):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            course = Course.objects.get(id=course_id)
+
+            for question_data in data["questions"]:
+                question = Question.objects.create(course=course, text=question_data["text"])
+
+                for option_data in question_data["options"]:
+                    Option.objects.create(
+                        question=question,
+                        text=option_data["text"],
+                        is_correct=option_data["is_correct"]
+                    )
+            return JsonResponse({"message": "Форма успешно добавлена!"})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Метод не поддерживается"}, status=405)
+
+
+def get_course_questions(request, course_id):
+    if request.method == "GET":
+        try:
+            course = Course.objects.get(id=course_id)
+            questions = course.questions.all()
+            response_data = []
+
+            for question in questions:
+                options = question.options.all()
+                response_data.append({
+                    'id': question.id,
+                    'text': question.text,
+                    'options': [{'id': option.id, 'text': option.text} for option in options],
+                })
+
+            return JsonResponse({"questions": response_data})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Метод не поддерживается"}, status=405)
+
+
+@csrf_exempt
+def check_answers(request, course_id):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+
+            user_id = data.get('user_id')
+            user = CustomUser.objects.get(id=user_id)
+
+            correct_answers = 0
+            total_questions = 0
+
+            course = Course.objects.get(id=course_id)
+
+            answers = data.get('answers', {})
+            for question_id, selected_option_id in answers.items():
+                question = Question.objects.get(id=question_id)
+                total_questions += 1
+
+                correct_option = question.options.filter(is_correct=True).first()
+                if correct_option and correct_option.id == selected_option_id:
+                    correct_answers += 1
+
+            QuizResult.objects.create(
+                user=user,
+                course=course,
+                correct_answers=correct_answers,
+            )
+
+            return JsonResponse({
+                "correct": correct_answers,
+                "total": total_questions,
+                "score": f"Всего правильных ответов {correct_answers} из {total_questions} вопросов"
+            })
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+    return JsonResponse({"error": "Метод не поддерживается"}, status=405)
+

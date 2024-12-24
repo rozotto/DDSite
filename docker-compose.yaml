@@ -3,10 +3,11 @@ services:
     build:
       context: ./backend
     image: ${DOCKERHUB_USERNAME}/gamewise_api
+    ports:
+      - "8000:8000"
     volumes:
       - ./backend:/backend
     command: bash -c "python manage.py runserver"
-    network_mode: "host"
 
   web:
     build:
@@ -17,4 +18,3 @@ services:
     ports:
       - "3000:3000"
     command: bash -c "npm start"
-    
