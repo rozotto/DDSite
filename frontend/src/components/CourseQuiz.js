@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const CourseQuiz = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [score, setScore] = useState(null);
@@ -75,6 +76,7 @@ const CourseQuiz = () => {
         </div>
       ))}
       <button onClick={handleSubmit}>Отправить ответы</button>
+      <button onClick={() => navigate(`/my-courses/${id}`)}>Вернуться к курсу</button>
     </div>
   );
 };

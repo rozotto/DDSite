@@ -9,6 +9,9 @@ import math from './math.jpg';
 const Catalog = () => {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  const storedUser = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     axios
@@ -25,6 +28,12 @@ const Catalog = () => {
     <div className="catalog">
       <Navbar />    
       <div className='catalog-content'>
+        {storedUser?.is_superuser && (
+          <li>
+            <button onClick={() => navigate(`/create-course`)}>Создать курс</button>
+          </li>
+        )}
+
         {courses.map((course) => (
           <div className='course-card' key={course.id}> 
             <h2>{course.title}</h2>

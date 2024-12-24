@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const CourseForm = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState([
     { text: '', options: [{ text: '', is_correct: false }] },
   ]);
@@ -41,8 +42,6 @@ const CourseForm = () => {
         }))
       }))
     };
-
-    console.log('Sending data:', JSON.stringify(requestData));
 
     try {
       const response = await fetch(`http://127.0.0.1:8000/accounts/api/courses/${id}/add-form/`, {
@@ -110,6 +109,7 @@ const CourseForm = () => {
         </button>
         <button type="submit">Сохранить форму</button>
       </form>
+      <button onClick={() => navigate(`/my-courses/${id}`)}>Вернуться к курсу</button>
     </div>
   );
 };

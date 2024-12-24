@@ -6,6 +6,7 @@ from django.core.files.storage import default_storage
 from .models import CustomUser, Course, Enrollment, Option, Question, QuizResult
 import json
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 
 
 @csrf_exempt
@@ -96,9 +97,9 @@ def profile_view(request):
 
     data = {
         "id": user.id,
+        "is_superuser": user.is_superuser,
         "username": user.username,
         "email": user.email,
-        "password": user.password,
         "profile_photo": profile_photo_url,
     }
     return JsonResponse(data, status=200)
@@ -124,22 +125,36 @@ def create_course(request):
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
-@login_required
 @csrf_exempt
 def enroll_course(request, course_id):
-    course = get_object_or_404(Course, id=course_id)
-    if Enrollment.objects.filter(course=course, user=request.user).exists():
-        return JsonResponse(
-            {"error": "You are already enrolled in this course"}, status=400
-        )
+    if request.method == "POST":
+        try:
+            course = get_object_or_404(Course, id=course_id)
 
-    Enrollment.objects.create(course=course, user=request.user)
-    return JsonResponse(
-        {"message": f"You have successfully enrolled in {course.title}"}, status=200
-    )
+            data = json.loads(request.body)
+            user_id = data.get("user_id")
+
+            if not user_id:
+                return JsonResponse({"error": "User ID is required"}, status=400)
+
+            user = get_object_or_404(CustomUser, id=user_id)
+
+            if Enrollment.objects.filter(course=course, user=user).exists():
+                return JsonResponse(
+                    {"error": "You are already enrolled in this course"}, status=400
+                )
+
+            Enrollment.objects.create(course=course, user=user)
+            return JsonResponse(
+                {"message": f"You have successfully enrolled in {course.title}"}, status=200
+            )
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON payload"}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 
-# @login_required
 def user_enrolled_courses(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
 
@@ -257,23 +272,23 @@ def delete_user(request, user_id):
     )
 
 
-def count_user_courses(request):
+def count_user_correct_answers(request):
     users = CustomUser.objects.all()
 
-    user_courses_count = []
+    user_correct_answers = []
 
     for user in users:
-        course_count = Course.objects.filter(enrollments__user=user).count()
+        correct_answers_sum = QuizResult.objects.filter(user=user).aggregate(total_correct=Sum('correct_answers'))['total_correct'] or 0
 
-        user_courses_count.append(
+        user_correct_answers.append(
             {
                 "user_id": user.id,
                 "username": user.username,
-                "course_count": course_count,
+                "correct_answers": correct_answers_sum,
             }
         )
 
-    return JsonResponse({"user_courses_count": user_courses_count}, status=200)
+    return JsonResponse({"user_correct_answers": user_correct_answers}, status=200)
 
 
 @csrf_exempt
