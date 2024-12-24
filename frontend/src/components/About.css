@@ -7,7 +7,7 @@
 .about-content {
     width: 90%;
     display: flex;
-    justify-content: space-between;
+    justify-content:flex-end;
     margin: 20px auto;
     background: linear-gradient(to bottom, #FFD4D2, #FF6E79);
     border-radius: 10px;
