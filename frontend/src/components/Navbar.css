@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'P2';
-    src: url('./fonts/PressStart2P-Regular.ttf') format('truetype');
+    src: url('./../fonts/PressStart2P-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Kalnia';
-    src: url('./fonts/Kalnia-Bold.ttf') format('truetype');
+    src: url('./../fonts/Kalnia-Bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
@@ -21,19 +21,28 @@
 }
 
 .navbar {
+    background-color: #FFD4D2;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
-    padding: 10px 20px;
-    justify-content: space-between;
-    background-color: #FFD4D2;
+    width: 100%;
+    justify-content: space-around;
 }
 
 .app-container {
-  margin: 10px 20px;
+    display: flex;
+    text-decoration: none;
+    margin-left: 20px;
 }
 
+.navbar ul {
+    display: flex;
+    list-style-type: none;
+    padding-inline-start: 0px;
+}
 .navbar-header {
     display: flex;
+    text-decoration: none;
     align-items: center;
 }
 
@@ -45,6 +54,7 @@
 
 .project-title {
     font-size: 24px;
+    text-decoration: none;
     color: #462E4C;
     font-family: 'Kalnia', sans-serif;
 }
@@ -72,6 +82,12 @@
     font-size: 14px;
     font-weight: bold;
     transition: background-color 0.3s;
+    margin-right: 5px;
+}
+
+.auth-button:hover {
+    color: #FF6E79;
+    box-shadow: 0px -6px 0 #FF6E79 inset;
 }
 
 .btn {
@@ -81,7 +97,7 @@
     background: transparent;
     padding: 10px 15px;
     text-decoration: none;
-    display: inline-block;
+    display: flex;
     margin-right: 10px;
     border: 2px solid transparent;
     box-shadow: 0px -6px 0 #462E4C inset;
