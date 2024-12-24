@@ -10,43 +10,32 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    container:
-      image:  pepengu/gamewise_api:latest
-      ports:
-        - "8000:8000"
-      volumes:
-        - ./backend:/backend
-
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
 
       - name: Run Tests
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         working-directory: backend
         run: |
-          python manage.py test
+          docker compose run api python manage.py test
 
   run-linters:
     name: Run linters
 
     runs-on: ubuntu-latest
 
-    container:
-      image:  pepengu/gamewise_api:latest
-      volumes:
-        - ./backend:/backend
-      options: --user root
-
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
 
-      - name: Install Dependencies
-        working-directory: backend
-        run: |
-          pip install black
-
       - name: Run linters
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         working-directory: backend
         run: |
-          python -m black . --check --diff --color
+          docker compose run api bash -c "
+            pip install black &&
+            python -m black . --check --diff --color"
+
