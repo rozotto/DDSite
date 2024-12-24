@@ -3,7 +3,9 @@ name: Docker Image CI
 on:
   push:
     paths:
-      - 'dockers/**'
+      - 'frontend/Dockerfile'
+      - 'backend/Dockerfile'
+      - 'docker-compose'
 
 
 jobs:

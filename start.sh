@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' 
+
 set -a; source .env; set +a
 
 web=0
@@ -41,24 +45,40 @@ fi
 
 
 if [ $web == 1 ]; then
-    echo "Frontend start request recieved"
+    printf "${GREEN}[ Frontend start request recieved ]${NC}\n"
 fi
 if [ $api == 1 ]; then
-    echo "Backend start request recieved"
+    printf "${GREEN}[ Backend start request recieved ]${NC}\n"
 fi
 
-if [ $((web + api)) == 2 ]; then
-    docker compose -f"./dockers/run-app.yaml" up -d
-    echo "Frontend started succesfully"
-    echo "Backend started succesfully"
-elif [ $web == 1 ]; then
-    docker compose -f"./dockers/run-app.yaml" up web -d
-    echo "Frontend started succesfully"
-elif [ $api == 1 ]; then
-    docker compose -f"./dockers/run-app.yaml" up api -d
-    echo "Backend started succesfully"
-else
-    docker compose -f"./dockers/run-app.yaml" up -d
-    echo "Frontend started succesfully"
-    echo "Backend started succesfully"
+function run_web {
+    function web_succeded {
+        printf "${GREEN}[ Web docker started succesfully ]${NC}\n"
+    }
+
+    function web_failed {
+        printf "${RED}[ Web docker start failed ]${NC}\n"
+    }
+
+    docker compose up web -d && web_succeded || web_failed
+}
+
+
+function run_api {
+    function api_succeded {
+        printf "${GREEN}[ Api docker started succesfully ]${NC}\n"
+    }
+
+    function api_failed {
+        printf "${RED}[ Api docker start failed ]${NC}\n"
+    }
+
+    docker compose up api -d && api_succeded || api_failed
+}
+
+if [ $web == 1 ]; then
+    run_web
+fi
+if [ $api == 1 ]; then
+    run_api
 fi
