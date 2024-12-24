@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import './MyCourses.css';
 import './Catalog.css';
 import math from './math.jpg';
 
 const MyCourses = () => {
-  const [user, setUser] = useState(null);
+  const [, setUser] = useState(null);
   const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserCourses = async () => {
@@ -45,9 +45,9 @@ const MyCourses = () => {
   if (loading) return <div>Загрузка...</div>;
   if (error) return <div>{error}</div>;
 
-  const handleCourseClick = (id) => {
-    navigate(`/courses/${id}`);
-  };
+  //const handleCourseClick = (id) => {
+  //  navigate(`/courses/${id}`);
+  //};
 
   return (
     <div className="my-courses">
