@@ -1,0 +1,66 @@
+@font-face {
+  font-family: 'Transforma';
+  src: url('./fonts/TransformaSans_Trial-Medium.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Transforma';
+  src: url('./fonts/TransformaSans_Trial-SemiBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  --white: #FFFFFF;
+  --dark-cyan: #0D8989;
+  --light-cyan: #6ACCCC;
+  --text-dark: #462E4C;
+}
+
+body {
+  font-family: 'Transforma', sans-serif;
+}
+
+.lesson-list-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.lesson-list-container h2 {
+  text-align: center;
+  color: var(--dark-cyan);
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.lesson-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.lesson-card {
+  background-color: var(--light-cyan);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.lesson-card h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.lesson-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}

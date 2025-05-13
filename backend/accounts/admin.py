@@ -2,12 +2,13 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 from django.utils.html import format_html
-from .models import Course, Enrollment
 
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
+
+    readonly_fields = ("date_joined",)
 
     list_display = ("username", "email", "profile_photo_tag", "is_staff", "is_active")
     list_filter = ("is_staff", "is_active")
@@ -19,23 +20,24 @@ class CustomUserAdmin(UserAdmin):
     )
 
     add_fieldsets = (
-        None,
-        {
-            "classes": ("wide",),
-            "fields": (
-                "username",
-                "email",
-                "password1",
-                "password2",
-                "profile_photo",
-                "is_staff",
-                "is_active",
-            ),
-        },
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "username",
+                    "email",
+                    "password1",
+                    "password2",
+                    "profile_photo",
+                    "is_staff",
+                    "is_active",
+                ),
+            },
+        ),
     )
 
     filter_horizontal = ()
-
     search_fields = ("username", "email")
     ordering = ("username",)
 
@@ -47,7 +49,3 @@ class CustomUserAdmin(UserAdmin):
         return "No Image"
 
     profile_photo_tag.short_description = "Profile Photo"
-
-
-admin.site.register(Course)
-admin.site.register(Enrollment)

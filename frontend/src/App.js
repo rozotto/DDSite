@@ -6,14 +6,13 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
 import About from './components/About';
-import Catalog from './components/Catalog';
-import MyCourses from './components/MyCourses';
-import CourseDetail from './components/CourseDetail';
-import CDforMyCourses from './components/CDforMyCourses';
-import Leaderboard from './components/Leaderboard';
-import CourseForm from './components/CourseForm';
-import CourseQuiz from './components/CourseQuiz';
-import CreateCourse from './components/CreateCourse';
+import Students from './components/Students';
+import Lessons from './components/Lessons';
+import LessonList from './components/LessonList';
+import LessonDetail from './components/LessonDetail';
+import StudentsLessons from './components/StudentsLessons';
+import StudentsDetails from './components/StudentsDetails';
+import Assignment from './components/Assignment';
 
 function App() {
     return (
@@ -25,14 +24,13 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/catalog" element={<Catalog />} />
-                    <Route path="/my-courses" element={<MyCourses />} />
-                    <Route path="/courses/:id" element={<CourseDetail />} />
-                    <Route path="/my-courses/:id" element={<CDforMyCourses />} />
-                    <Route path="/courses/:id/add-form" element={<CourseForm />} />
-                    <Route path="/courses/:id/quiz" element={<CourseQuiz />} />
-                    <Route path="/leaderboard" element={<Leaderboard />} />
-                    <Route path="/create-course" element={<CreateCourse />} />
+                    <Route path="/students" element={<Students />} />
+                    <Route path="/lessons" element={<Lessons />} />
+                    <Route path="/complete_lessons" element={<LessonList />} />
+                    <Route path="/lessons/:lessonId" element={<LessonDetail />} />
+                    <Route path="/lessons_for_students" element={<StudentsLessons />} />
+                    <Route path="/lessons_for_students/:lessonId" element={<StudentsDetails />} />
+                    <Route path="/base" element={<Assignment />} />
                 </Routes>
             </Router>
         </UserProvider>

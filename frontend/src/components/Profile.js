@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 import { UserContext } from './UserContext';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -18,7 +20,7 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        const fetchProfile = () => {
+        const fetchProfile = async () => {
             const storedUser = localStorage.getItem('user');
 
             if (!storedUser) {
@@ -52,7 +54,7 @@ const Profile = () => {
         formDataToSend.append('username', formData.username);
         formDataToSend.append('email', formData.email);
         if (formData.profile_photo) {
-            formDataToSend.append('profile_photos', formData.profile_photo);
+            formDataToSend.append('profile_photo', formData.profile_photo);
         }
 
         try {
@@ -65,18 +67,14 @@ const Profile = () => {
 
             if (data.status === 'success') {
                 alert('Профиль успешно обновлен!');
-                localStorage.setItem('user', JSON.stringify({
+                const updatedUser = {
                     ...user,
                     username: formData.username,
                     email: formData.email,
                     profile_photo: formData.profile_photo ? URL.createObjectURL(formData.profile_photo) : user.profile_photo,
-                }));
-                setUser({
-                    ...user,
-                    username: formData.username,
-                    email: formData.email,
-                    profile_photo: formData.profile_photo ? URL.createObjectURL(formData.profile_photo) : user.profile_photo,
-                });
+                };
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+                setUser(updatedUser);
                 setIsEditing(false);
             } else {
                 alert(data.message || 'Ошибка при обновлении профиля');
@@ -87,21 +85,21 @@ const Profile = () => {
         }
     };
 
-    if (loading) {
-        return <p>Загрузка...</p>;
-    }
-
-    if (error) {
-        return <p style={{ color: 'red' }}>{error}</p>;
-    }
+    if (loading) return <p>Загрузка...</p>;
+    if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
     return (
         <div className="profile-container">
-            <h1>Страница профиля</h1>
+            <Navbar />
             {user ? (
-                <>
+                <div className="profile-content">
+                    <img
+                        src={user.profile_photo || 'default-profile.png'}
+                        alt="Profile"
+                        className="profile-photo"
+                    />
                     {isEditing ? (
-                        <div>
+                        <div className="edit-form">
                             <label>
                                 Имя пользователя:
                                 <input
@@ -129,27 +127,27 @@ const Profile = () => {
                                     onChange={handleFileChange}
                                 />
                             </label>
-                            <button onClick={handleSave}>Сохранить</button>
-                            <button onClick={() => setIsEditing(false)}>Отмена</button>
+                            <div className="form-buttons">
+                                <button className="save-button" onClick={handleSave}>Сохранить</button>
+                                <button className="cancel-button" onClick={() => setIsEditing(false)}>Отмена</button>
+                            </div>
                         </div>
                     ) : (
-                        <>
-                            <img
-                                src={user.profile_photo || 'default-profile.png'}
-                                alt="Profile"
-                                className="profile-photo-large"
-                            />
+                        <div className="profile-details">
                             <h2>{user.username}</h2>
                             <p>Email: {user.email}</p>
-                            <button onClick={() => navigate(`/home`)}>На главную</button>
-                            <button onClick={() => setIsEditing(true)}>Редактировать</button>
-                            <button className="logout-button" onClick={handleLogout}>Выйти</button>
-                        </>
+                            <div className="profile-buttons">
+                                <button className="nav-button" onClick={() => navigate(`/home`)}>На главную</button>
+                                <button className="edit-button" onClick={() => setIsEditing(true)}>Редактировать</button>
+                                <button className="logout-button" onClick={handleLogout}>Выйти</button>
+                            </div>
+                        </div>
                     )}
-                </>
+                </div>
             ) : (
                 <p>Данные профиля не найдены.</p>
             )}
+            <Footer />
         </div>
     );
 };

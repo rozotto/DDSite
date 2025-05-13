@@ -1,0 +1,92 @@
+.lesson-detail-container {
+    width: 90%;
+    margin: 20px auto;
+    background: linear-gradient(to bottom, #6ACCCC, #0D8989);
+    border-radius: 10px;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.lesson-info {
+    margin-bottom: 30px;
+}
+
+.lesson-info h2 {
+    color: #fff;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.lesson-info p {
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.lesson-info h3 {
+    color: #fff;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.lesson-info ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.lesson-info li {
+    margin-bottom: 10px;
+}
+
+.lesson-info a {
+    color: #FFD4D2;
+    text-decoration: none;
+}
+
+.lesson-info a:hover {
+    color: #fff;
+}
+
+.homework-container {
+    margin-top: 40px;
+}
+
+.homework-container h3 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.homework-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.homework-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: 300px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.homework-card h4 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #462E4C;
+}
+
+.homework-image {
+    width: 100%;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    font-size: 16px;
+}

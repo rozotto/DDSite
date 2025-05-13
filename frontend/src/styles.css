@@ -1,47 +1,94 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
+@font-face {
+    font-family: 'Transforma';
+    src: url('./components/fonts/TransformaSans_Trial-SemiBold.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
 }
 
+@font-face {
+    font-family: 'Transforma';
+    src: url('./components/fonts/TransformaSans_Trial-SemiBold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Базовые стили */
+body {
+    font-family: 'Transforma', sans-serif;
+    background-color: #FFFFFF; /* Основной цвет */
+    margin: 0;
+    padding: 0;
+    color: #0D8989; /* Цвет текста по умолчанию */
+}
+
+/* Контейнер формы */
 .form-container {
     max-width: 400px;
     margin: 50px auto;
-    padding: 20px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: #FFFFFF;
+    border: 2px solid #0D8989;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(13, 137, 137, 0.1);
     box-sizing: border-box;
 }
 
-.form-container input,
+/* Заголовок */
+.form-container h1 {
+    text-align: center;
+    color: #0D8989;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+/* Поля ввода */
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #6ACCCC; /* Акцентный цвет */
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    transition: border 0.3s, box-shadow 0.3s;
+    font-size: 15px;
+}
+
+/* Фокус */
+.form-container input:focus {
+    outline: none;
+    border-color: #0D8989;
+    box-shadow: 0 0 6px #6ACCCC;
+}
+
+/* Кнопка */
 .form-container button {
     width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.form-container button {
-    background: #007bff;
-    color: white;
-    font-weight: bold;
+    padding: 12px;
+    background-color: #0D8989; /* Дополнительный цвет */
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 15px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .form-container button:hover {
-    background: #0056b3;
+    background-color: #6ACCCC; /* Акцент */
 }
 
-.form-container h1 {
+/* Сообщение */
+.form-container p {
     text-align: center;
-    color: #007bff;
+    color: #0D8989;
+    font-weight: 500;
+    font-size: 14px;
 }
 
+/* Переключение на другую форму */
 .switch-container {
     text-align: center;
     margin-top: 20px;
@@ -49,19 +96,17 @@ body {
 
 .switch-container p {
     font-size: 14px;
-    color: #555;
+    color: #0D8989;
 }
 
 .switch-container span {
-    color: #007bff;
+    color: #6ACCCC;
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.3s;
 }
 
 .switch-container span:hover {
+    color: #0D8989;
     text-decoration: underline;
-}
-
-.form-container p {
-    text-align: center;
 }

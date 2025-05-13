@@ -1,32 +1,60 @@
+@font-face {
+    font-family: 'Transforma';
+    src: url('./fonts/TransformaSans_Trial-Medium.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Transforma';
+    src: url('./fonts/TransformaSans_Trial-SemiBold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+:root {
+    --white: #FFFFFF;
+    --dark-cyan: #0D8989;
+    --light-cyan: #6ACCCC;
+}
+
 .footer {
-    background-color: #FF6E79;
-    padding: 10px 20px;
-    align-items: center;
-    color: #462E4C;
-    font-weight: bold;
-    text-align: center;
-    justify-content: space-between;
+    background-color: var(--white);
+    padding: 16px 30px;
+    color: var(--dark-cyan);
+    font-family: 'Transforma', sans-serif;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
     width: 100%;
-    display: flex;
+    position: relative;
+    bottom: 0;
+    flex-shrink: 0;
+    text-align: center; /* Центрирование текста */
 }
 
 .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
 }
 
-.footer-links {
-    margin-top: 10px;
+.footer p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .footer-links a {
-    color: #462E4C;
+    color: var(--dark-cyan);
     text-decoration: none;
-    margin: 0 15px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-    color: #FFD4D2;
+    color: var(--light-cyan);
     text-decoration: underline;
 }

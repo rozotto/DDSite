@@ -5,11 +5,10 @@ from .models import CustomUser, Course, Enrollment
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     password_confirm = forms.CharField(widget=forms.PasswordInput())
-    profile_photo = forms.ImageField(required=False)
 
     class Meta:
         model = CustomUser
-        fields = ["username", "email", "password", "profile_photo"]
+        fields = ["username", "email", "password"]
 
     def clean_password_confirm(self):
         password = self.cleaned_data.get("password")

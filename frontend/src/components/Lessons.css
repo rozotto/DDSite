@@ -1,0 +1,86 @@
+@font-face {
+  font-family: 'Transforma';
+  src: url('./fonts/TransformaSans_Trial-Medium.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Transforma';
+  src: url('./fonts/TransformaSans_Trial-SemiBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  --white: #FFFFFF;
+  --dark-cyan: #0D8989;
+  --light-cyan: #6ACCCC;
+  --text-dark: #462E4C;
+}
+
+body {
+  font-family: 'Transforma', sans-serif;
+}
+
+main {
+    flex-grow: 1;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.add-lesson-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px 20px;
+  background-color: var(--light-cyan);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.add-lesson-container h2 {
+  text-align: center;
+  color: var(--dark-cyan);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+input[type="text"],
+textarea {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  resize: vertical;
+  font-family: 'Transforma', sans-serif;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--dark-cyan);
+}
+
+button[type="submit"] {
+  background-color: var(--dark-cyan);
+  color: var(--white);
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0a7070;
+}

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.conf import settings
 
 
 class CustomUserManager(BaseUserManager):
@@ -46,46 +45,46 @@ class CustomUser(AbstractBaseUser):
         return self.is_superuser
 
 
-class Course(models.Model):
-    title = models.CharField(max_length=255, unique=True, verbose_name="Название")
-    author = models.ForeignKey(
-        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
-    )
-    description = models.TextField(max_length=500, verbose_name="Описание")
-    tags = models.CharField(max_length=255, verbose_name="Тематика")
-    content = models.TextField(blank=True, null=True)
+class TutorStudent(models.Model):
+    tutor = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='tutors')
+    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='students')
+    date_assigned = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('tutor', 'student')
+
+
+class Lesson(models.Model):
+    tutor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
 
 
-class Enrollment(models.Model):
-    course = models.ForeignKey(
-        Course, on_delete=models.CASCADE, related_name="enrollments"
-    )
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enrollments"
-    )
-    enrollment_date = models.DateField(
-        auto_now_add=True, verbose_name="Дата записи", null=True, blank=True
-    )
-
-
-class Question(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="questions")
-    text = models.CharField(max_length=255)
-
-
-class Option(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="options")
-    text = models.CharField(max_length=255)
-    is_correct = models.BooleanField(default=False)
-
-
-class QuizResult(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    correct_answers = models.PositiveIntegerField()
+class LessonMaterial(models.Model):
+    lesson = models.ForeignKey(Lesson, related_name='materials', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='lesson_materials/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.course.title} - {self.score}%"
+        return f"{self.lesson.title} - {self.file.name}"
+
+
+class Assignment(models.Model):
+    question = models.CharField(max_length=1000)
+    image = models.ImageField(upload_to='assignments_images/', null=True, blank=True)
+    answer = models.TextField()
+
+    def __str__(self):
+        return self.question
+
+
+class HomeworkAssignment(models.Model):
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.lesson.title} — {self.assignment.question}'

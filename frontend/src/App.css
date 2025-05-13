@@ -1,33 +1,14 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #E1E6EF;
+body, html, #root {
+    height: 100%;
+    margin: 0;
 }
 
-form {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+.app-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-input,
-button {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-button {
-    background: #FFD4D2;
-    color: #FF6E79;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #FF6E79;
-    color: #462E4C;
+main {
+    flex: 1;
 }

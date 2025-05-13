@@ -1,0 +1,136 @@
+@font-face {
+  font-family: 'Transforma';
+  src: url('./fonts/TransformaSans_Trial-Medium.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Transforma';
+  src: url('./fonts/TransformaSans_Trial-SemiBold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+:root {
+  --white: #FFFFFF;
+  --dark-cyan: #0D8989;
+  --light-cyan: #6ACCCC;
+  --text-dark: #462E4C;
+}
+
+body {
+  font-family: 'Transforma', sans-serif;
+}
+
+.lesson-detail-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.lesson-detail-container h2 {
+  font-size: 28px;
+  color: var(--dark-cyan);
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.lesson-detail-container p {
+  font-size: 16px;
+  color: var(--text-dark);
+  margin-bottom: 25px;
+}
+
+.lesson-detail-container h3 {
+  font-size: 22px;
+  margin-top: 40px;
+  color: var(--dark-cyan);
+  text-align: center;
+}
+
+.lesson-detail-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.lesson-detail-container li {
+  margin-bottom: 15px;
+  padding: 12px;
+  background-color: var(--light-cyan);
+  border-radius: 8px;
+}
+
+.lesson-detail-container a {
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.lesson-detail-container a:hover {
+  text-decoration: underline;
+}
+
+.lesson-detail-container form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.lesson-detail-container input[type="file"]::file-selector-button {
+  background-color: var(--dark-cyan);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.lesson-detail-container input[type="file"]::file-selector-button:hover {
+  background-color: #0a6c6c;
+}
+
+.lesson-detail-container button {
+  padding: 10px 20px;
+  background-color: var(--dark-cyan);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.lesson-detail-container button:hover {
+  background-color: #0a6c6c;
+}
+
+.assignment-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  width: 300px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background-color: #fefefe;
+}
+
+.assignment-card img {
+  width: 100%;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.assignment-select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  gap: 15px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.centered-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}

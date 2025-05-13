@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './Register.css';
 
 const Login = () => {
     const [formData, setFormData] = useState({ username: '', password: '' });
@@ -33,20 +34,31 @@ const Login = () => {
         <div className="form-container">
             <h1>Login</h1>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="username" placeholder="Username" onChange={handleChange} />
-                <input type="password" name="password" placeholder="Password" onChange={handleChange} />
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
                 <button type="submit">Login</button>
             </form>
-            <p>{message}</p>
+
+            {message && <p>{message}</p>}
+
             <div className="switch-container">
                 <p>
                     Don&apos;t have an account?
-                    <span
-                        style={{ color: "blue", cursor: "pointer", marginLeft: '5px' }}
-                        onClick={() => navigate('/register')}
-                    >
-                        Register
-                    </span>
+                    <span onClick={() => navigate('/register')}> Register</span>
                 </p>
             </div>
         </div>

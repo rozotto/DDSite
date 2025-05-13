@@ -15,14 +15,26 @@ const Navbar = () => {
                         <img src={logo} alt="Logo" className="logo" />
                     </Link>
                 </header>
-                <h1 className="project-title">GameWise</h1>
+                    <h1 className="project-title">
+                      Подготовка к ЕГЭ<br />
+                      По информатике
+                    </h1>
+
             </div>
 
             <ul className="nav-links">
-                <li><Link to="/catalog" className="btn">КАТАЛОГ</Link></li>
-                <li><Link to="/my-courses" className="btn">МОИ КУРСЫ</Link></li>
-                <li><Link to="/leaderboard" className="btn">ЛИДЕРБОРД</Link></li>
-                <li><Link to="/about" className="btn">О ПРОЕКТЕ</Link></li>
+                {user && user.is_staff ? (
+                    <>
+                        <li><Link to="/students" className="btn">УЧЕНИКИ</Link></li>
+                        <li><Link to="/lessons" className="btn">ДОБАВИТЬ УРОК</Link></li>
+                        <li><Link to="/complete_lessons" className="btn">ЗАНЯТИЯ</Link></li>
+                        <li><Link to="/base" className="btn">БАЗА ЗАДАНИЙ</Link></li>
+                    </>
+                ) : user ? (
+                    <>
+                        <li><Link to="/lessons_for_students" className="btn">ЗАНЯТИЯ</Link></li>
+                    </>
+                ) : null}
             </ul>
             <div className="auth-buttons">
                 {user ? (

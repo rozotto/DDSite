@@ -7,16 +7,16 @@
 .about-content {
     width: 90%;
     display: flex;
-    justify-content:flex-end;
+    justify-content: center;
     margin: 20px auto;
-    background: linear-gradient(to bottom, #FFD4D2, #FF6E79);
+    background: linear-gradient(to bottom, #6ACCCC, #0D8989);
     border-radius: 10px;
     padding: 20px;
     flex-direction: column;
 }
 
 .about-text {
-    flex: 1; 
+    flex: 1;
     padding-right: 30px;
     text-align: justify;
 }
@@ -28,76 +28,11 @@
     font-family: 'P2', sans-serif;
 }
 
-.text-section-l h2 {
-    color: #462E4C;
-    font-size: 20px;
-    text-align: left;
-    font-family: 'P2', sans-serif;
-}
-
-.text-section-ld h2 {
-    color: #462E4C;
-    font-size: 20px;
-    text-align: left;
-    font-family: 'P2', sans-serif;
-}
-
-.text-section-r h2 {
-    color: #462E4C;
-    font-size: 20px;
-    text-align: left;
-    font-family: 'P2', sans-serif;
-}
-
-.text-section-rd h2 {
-    color: #462E4C;
-    font-size: 20px;
-    text-align: left;
-    font-family: 'P2', sans-serif;
-}
-
 .about-text p {
     color: #462E4C;
     font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
-}
-
-.about-section {
-    flex-direction: row;
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 40px;
-}
-
-.image-section {
-    display: flex;
-    justify-content: center;
-}
-
-.text-section-l {
-    padding-left: 20px;
-    box-shadow: 4px 4px 7px rgba(255, 110, 121, 0.3);
-}
-
-.text-section-ld {
-    padding-left: 20px;
-    box-shadow: 4px 4px 7px rgba(70, 46, 76, 0.3);
-}
-
-.text-section-r {
-    padding-left: 20px;
-    box-shadow: -4px 4px 7px rgba(255, 110, 121, 0.5);
-}
-
-.text-section-rd {
-    padding-left: 20px;
-    box-shadow: -4px 4px 7px rgba(70, 46, 76, 0.5);
-}
-
-.text-section h2 {
-    color: #462E4C;
-    font-size: 23px;
-    font-family: 'P2', sans-serif;
+    line-height: 1.6;
 }
 
 .profile-image {
@@ -107,21 +42,12 @@
     border-radius: 50%;
 }
 
-.about-section.reverse {
-    flex-direction: row-reverse;
+.footer-section {
+    text-align: center;
+    padding: 20px;
 }
 
-.reverse .text-section {
-    padding-left: 0;
-    padding-right: 20px;
-}
-
-.image-section,
-.text-section, 
-.text-section-l,
-.text-section-r,
-.text-section-rd,
-.text-section-ld {
-    flex: 1; 
-    max-width: 400px;
+.footer-section p {
+    color: #462E4C;
+    font-size: 16px;
 }

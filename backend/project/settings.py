@@ -9,11 +9,6 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
 ]  # this is the host that Docker uses to run application
-
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-]  # this is the host that Docker uses to run application
 DEBUG = True
 
 # Application definition
@@ -41,7 +36,10 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',  # твой фронт
+]
 
 ROOT_URLCONF = "project.urls"
 
