@@ -1,25 +1,46 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(() => {
-        const storedUser = localStorage.getItem('user');
-        return storedUser ? JSON.parse(storedUser) : null;
-    });
+    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const login = (userData) => {
-        setUser(userData);
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (e) {
+                console.error("Failed to parse user data", e);
+                localStorage.removeItem('user');
+            }
+        }
+        setIsLoading(false);
+    }, []);
+
+    const login = async (userData) => {
         localStorage.setItem('user', JSON.stringify(userData));
+        setUser(userData);
     };
 
     const logout = () => {
-        setUser(null);
         localStorage.removeItem('user');
+        setUser(null);
+    };
+
+    const isAuthenticated = () => {
+        return !!user;
     };
 
     return (
-        <UserContext.Provider value={{ user, login, logout }}>
+        <UserContext.Provider value={{
+            user,
+            isLoading,
+            login,
+            logout,
+            isAuthenticated
+        }}>
             {children}
         </UserContext.Provider>
     );

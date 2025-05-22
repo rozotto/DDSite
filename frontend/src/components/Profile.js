@@ -10,7 +10,12 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState({ username: '', email: '', profile_photo: null });
+    const [formData, setFormData] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        profile_photo: null
+    });
     const navigate = useNavigate();
     const { logout } = useContext(UserContext);
 
@@ -31,7 +36,12 @@ const Profile = () => {
 
             const userData = JSON.parse(storedUser);
             setUser(userData);
-            setFormData({ username: userData.username, email: userData.email, profile_photo: null });
+            setFormData({
+                first_name: userData.first_name || '',
+                last_name: userData.last_name || '',
+                email: userData.email || '',
+                profile_photo: null
+            });
             setLoading(false);
         };
 
@@ -51,10 +61,11 @@ const Profile = () => {
         if (!user) return;
 
         const formDataToSend = new FormData();
-        formDataToSend.append('username', formData.username);
+        formDataToSend.append('first_name', formData.first_name);
+        formDataToSend.append('last_name', formData.last_name);
         formDataToSend.append('email', formData.email);
         if (formData.profile_photo) {
-            formDataToSend.append('profile_photo', formData.profile_photo);
+            formDataToSend.append('profile_photos', formData.profile_photo);
         }
 
         try {
@@ -101,11 +112,20 @@ const Profile = () => {
                     {isEditing ? (
                         <div className="edit-form">
                             <label>
-                                Имя пользователя:
+                                Имя:
                                 <input
                                     type="text"
-                                    name="username"
-                                    value={formData.username}
+                                    name="first_name"
+                                    value={formData.first_name}
+                                    onChange={handleInputChange}
+                                />
+                            </label>
+                            <label>
+                                Фамилия:
+                                <input
+                                    type="text"
+                                    name="last_name"
+                                    value={formData.last_name}
                                     onChange={handleInputChange}
                                 />
                             </label>
@@ -134,10 +154,10 @@ const Profile = () => {
                         </div>
                     ) : (
                         <div className="profile-details">
-                            <h2>{user.username}</h2>
+                            <h2>{user.first_name} {user.last_name}</h2>
                             <p>Email: {user.email}</p>
                             <div className="profile-buttons">
-                                <button className="nav-button" onClick={() => navigate(`/home`)}>На главную</button>
+                                <button className="nav-button" onClick={() => navigate(`/`)}>На главную</button>
                                 <button className="edit-button" onClick={() => setIsEditing(true)}>Редактировать</button>
                                 <button className="logout-button" onClick={handleLogout}>Выйти</button>
                             </div>

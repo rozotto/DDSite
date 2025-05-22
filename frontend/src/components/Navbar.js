@@ -11,15 +11,12 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="app-container">
                 <header>
-                    <Link to="/home">
-                        <img src={logo} alt="Logo" className="logo" />
+                    <Link to="/" className="logo-title-link">
+                        <div className="logo-title-wrapper">
+                            <img src={logo} alt="Logo" className="logo" />
+                        </div>
                     </Link>
                 </header>
-                    <h1 className="project-title">
-                      Подготовка к ЕГЭ<br />
-                      По информатике
-                    </h1>
-
             </div>
 
             <ul className="nav-links">
@@ -28,11 +25,12 @@ const Navbar = () => {
                         <li><Link to="/students" className="btn">УЧЕНИКИ</Link></li>
                         <li><Link to="/lessons" className="btn">ДОБАВИТЬ УРОК</Link></li>
                         <li><Link to="/complete_lessons" className="btn">ЗАНЯТИЯ</Link></li>
+                        <li><Link to="/courses" className="btn">СОЗДАТЬ КУРС</Link></li>
                         <li><Link to="/base" className="btn">БАЗА ЗАДАНИЙ</Link></li>
                     </>
                 ) : user ? (
                     <>
-                        <li><Link to="/lessons_for_students" className="btn">ЗАНЯТИЯ</Link></li>
+                        <li><Link to="/my_courses" className="btn">КУРСЫ</Link></li>
                     </>
                 ) : null}
             </ul>

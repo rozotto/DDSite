@@ -13,13 +13,15 @@ import LessonDetail from './components/LessonDetail';
 import StudentsLessons from './components/StudentsLessons';
 import StudentsDetails from './components/StudentsDetails';
 import Assignment from './components/Assignment';
+import CreateCourse from './components/CreateCourse';
+import { StudentCourses, StudentCourseDetail, StudentLessonDetail } from './components/StudentCourses';
 
 function App() {
     return (
         <UserProvider>
             <Router>
                 <Routes>
-                    <Route path="/home" element={<Home />} />
+                    <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<Profile />} />
@@ -31,6 +33,10 @@ function App() {
                     <Route path="/lessons_for_students" element={<StudentsLessons />} />
                     <Route path="/lessons_for_students/:lessonId" element={<StudentsDetails />} />
                     <Route path="/base" element={<Assignment />} />
+                    <Route path="/courses" element={<CreateCourse />} />
+                    <Route path="/my_courses" element={<StudentCourses />} />
+                    <Route path="/my_courses/:courseId" element={<StudentCourseDetail />} />
+                    <Route path="/my_courses/:courseId/lessons/:lessonId" element={<StudentLessonDetail />} />
                 </Routes>
             </Router>
         </UserProvider>

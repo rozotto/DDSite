@@ -1,60 +1,102 @@
-/* Основные стили */
-.assignment-page {
-    padding: 20px;
-    margin: 0 auto;
-}
-
-/* Заголовок страницы */
-.page-header {
+.assignments-container {
     display: flex;
-    flex-direction: column; /* Размещаем элементы в столбик */
-    align-items: center;
-    margin-bottom: 30px;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.page-title {
-    color: #0D8989;
-    font-size: 2rem;
-    margin: 0;
-    margin-bottom: 10px; /* Добавим отступ снизу для заголовка */
+.assignments-header {
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
 }
 
-/* Кнопки */
-.toggle-form-btn {
-    padding: 10px 20px;
-    background-color: #FF5722; /* Новый цвет для кнопки */
+.assignments-layout {
+    display: flex;
+    flex: 1;
+}
+
+.sections-sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sections-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.section-item {
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.section-item:hover {
+    background-color: #e9ecef;
+}
+
+.section-item.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.add-section-btn {
+    margin-top: 15px;
+    padding: 8px 12px;
+    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-    margin-top: 20px; /* Отступ сверху, чтобы кнопка была под заголовком */
 }
 
-.toggle-form-btn.cancel {
-    background-color: #f44336;
+.add-section-form {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.toggle-form-btn:hover {
-    background-color: #0D8989;
+.add-section-form input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
-
-/* Форма добавления */
-.add-form {
-    margin-bottom: 30px;
+.assignments-content {
+    flex: 1;
     padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    width: 60%; /* Уменьшаем ширину формы */
-    margin: 0 auto; /* Центрируем форму */
+    overflow-y: auto;
 }
 
-.form-title {
-    color: #0D8989;
-    margin-top: 0;
+.assignments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-assignment-btn {
+    padding: 8px 12px;
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-assignment-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
 .form-group {
@@ -64,114 +106,76 @@
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    color: #462E4C;
     font-weight: bold;
 }
 
-.form-input {
+.form-group input,
+.form-group textarea {
     width: 100%;
     padding: 8px;
-    border: 1px solid #6ACCCC;
+    border: 1px solid #ddd;
     border-radius: 4px;
-    box-sizing: border-box;
 }
 
-.form-textarea {
+.form-group textarea {
     min-height: 100px;
-    resize: vertical;
 }
 
-.submit-btn {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-}
-
-.submit-btn:hover {
-    background-color: #0D8989;
-}
-
-/* Список заданий */
-.assignments-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+.assignments-list {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 
 .assignment-card {
-    border: 1px solid #e0e0e0;
+    width: 800px;
+    background-color: white;
+    border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    position: relative;
-    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .assignment-id {
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    color: #6c757d;
+    font-size: 0.9em;
+    margin-bottom: 5px;
 }
 
 .assignment-question {
-    margin-top: 10px;
-    color: #0D8989;
-}
-
-.assignment-image {
-    margin: 15px 0;
-    border-radius: 4px;
-    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 15px;
 }
 
 .assignment-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.assignment-answer {
-    background-color: #f5f5f5;
-    padding: 12px;
+    max-width: 100%;
+    max-height: 300px;
+    margin-bottom: 15px;
     border-radius: 4px;
-    margin-top: 10px;
-    color: #462E4C;
 }
 
-/* Кнопка "Выберите файл" */
-input[type="file"] {
-    padding: 8px;
-    background-color: #4CAF50;
-    color: white;
+.assignment-solution {
+    margin-top: 15px;
+}
+
+.solution-toggle {
+    background: none;
     border: none;
-    border-radius: 4px;
+    color: #007bff;
     cursor: pointer;
-    transition: background-color 0.3s;
+    padding: 0;
+    text-decoration: underline;
 }
 
-input[type="file"]:hover {
-    background-color: #0D8989;
+.solution-content {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
 }
 
-/* Состояние загрузки */
-.loading-state {
+.loading {
     text-align: center;
-    padding: 40px;
-    color: #0D8989;
-    font-size: 1.2rem;
+    padding: 50px;
+    font-size: 1.2em;
 }

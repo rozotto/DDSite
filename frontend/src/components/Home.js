@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
-import image_anime from './image_anime.jpg';
+import logo_home from './logo_home.png';
 import './Home.css';
 
 const Home = () => {
@@ -15,7 +15,7 @@ const Home = () => {
         let timer;
 
         const addLetter = () => {
-            if (index+1 < fullText.length) {
+            if (index + 1 < fullText.length) {
                 setDisplayedText(prev => prev + fullText[index]);
                 index++;
                 timer = setTimeout(addLetter, 70);
@@ -36,7 +36,7 @@ const Home = () => {
                     <h1>{displayedText}</h1>
                 </div>
                 <div className="home-image-section">
-                    <img src={image_anime} alt="картинка" className="home-profile-image" />
+                    <img src={logo_home} alt="картинка" className="home-profile-image" />
                 </div>
             </div>
             <Footer />

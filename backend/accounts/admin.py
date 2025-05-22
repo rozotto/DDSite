@@ -1,22 +1,22 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
 from django.utils.html import format_html
+from .models import CustomUser
 
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-
     readonly_fields = ("date_joined",)
 
-    list_display = ("username", "email", "profile_photo_tag", "is_staff", "is_active")
+    list_display = ("email", "first_name", "last_name", "profile_photo_tag", "is_staff", "is_active")
     list_filter = ("is_staff", "is_active")
 
     fieldsets = (
-        (None, {"fields": ("username", "email", "password", "profile_photo")}),
-        ("Permissions", {"fields": ("is_staff", "is_active")}),
-        ("Important dates", {"fields": ("last_login", "date_joined")}),
+        (None, {"fields": ("email", "password")}),
+        ("Personal Info", {"fields": ("first_name", "last_name", "profile_photo")}),
+        ("Permissions", {"fields": ("is_staff", "is_active", "is_superuser")}),
+        ("Important Dates", {"fields": ("last_login", "date_joined")}),
     )
 
     add_fieldsets = (
@@ -25,21 +25,23 @@ class CustomUserAdmin(UserAdmin):
             {
                 "classes": ("wide",),
                 "fields": (
-                    "username",
                     "email",
+                    "first_name",
+                    "last_name",
+                    "profile_photo",
                     "password1",
                     "password2",
-                    "profile_photo",
                     "is_staff",
                     "is_active",
+                    "is_superuser",
                 ),
             },
         ),
     )
 
+    search_fields = ("email", "first_name", "last_name")
+    ordering = ("email",)
     filter_horizontal = ()
-    search_fields = ("username", "email")
-    ordering = ("username",)
 
     def profile_photo_tag(self, obj):
         if obj.profile_photo:
@@ -48,4 +50,4 @@ class CustomUserAdmin(UserAdmin):
             )
         return "No Image"
 
-    profile_photo_tag.short_description = "Profile Photo"
+    profile_photo_tag.short_description = "Фото профиля"

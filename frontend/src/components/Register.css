@@ -1,18 +1,17 @@
 @font-face {
-    font-family: 'Transforma';
-    src: url('./fonts/TransformaSans_Trial-Medium.ttf') format('truetype');
+    font-family: 'Montserrat';
+    src: url('./fonts/Montserrat-Medium.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Transforma';
-    src: url('./fonts/TransformaSans_Trial-SemiBold.ttf') format('truetype');
+    font-family: 'Montserrat';
+    src: url('./fonts/Montserrat-SemiBold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
 }
 
-/* Общий контейнер */
 .form-container {
     background-color: #FFFFFF;
     max-width: 400px;
@@ -21,19 +20,21 @@
     border: 2px solid #0D8989;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(13, 137, 137, 0.2);
-    font-family: 'Transforma', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 
-/* Заголовок */
 .form-container h1 {
     color: #0D8989;
     text-align: center;
     margin-bottom: 25px;
 }
 
-/* Поля формы */
 .form-container input[type="text"],
 .form-container input[type="email"],
 .form-container input[type="password"] {
@@ -53,7 +54,6 @@
     box-shadow: 0 0 5px #6ACCCC;
 }
 
-/* Кнопка регистрации */
 .form-container button {
     width: 100%;
     padding: 12px;
@@ -61,7 +61,7 @@
     color: #FFFFFF;
     border: none;
     border-radius: 8px;
-    font-family: 'Transforma', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -71,7 +71,6 @@
     background-color: #6ACCCC;
 }
 
-/* Сообщение об ошибке/успехе */
 .form-container p {
     margin-top: 15px;
     text-align: center;
@@ -79,7 +78,6 @@
     font-weight: 500;
 }
 
-/* Переключение на логин */
 .switch-container p {
     text-align: center;
     margin-top: 20px;

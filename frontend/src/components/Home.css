@@ -4,7 +4,7 @@ home-container {
     flex-direction: column;
     min-height: 100vh;
     background-color: #FFFFFF;
-    font-family: 'Transforma', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .home-content {

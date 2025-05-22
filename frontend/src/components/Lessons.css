@@ -1,13 +1,13 @@
 @font-face {
-  font-family: 'Transforma';
-  src: url('./fonts/TransformaSans_Trial-Medium.ttf') format('truetype');
+  font-family: 'Montserrat';
+  src: url('./fonts/Montserrat-Medium.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Transforma';
-  src: url('./fonts/TransformaSans_Trial-SemiBold.ttf') format('truetype');
+  font-family: 'Montserrat';
+  src: url('./fonts/Montserrat-SemiBold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
 }
@@ -20,14 +20,14 @@
 }
 
 body {
-  font-family: 'Transforma', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 main {
-    flex-grow: 1;
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
+  flex-grow: 1;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
 .add-lesson-container {
@@ -60,7 +60,7 @@ textarea {
   border: 1px solid #ccc;
   font-size: 16px;
   resize: vertical;
-  font-family: 'Transforma', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 input:focus,

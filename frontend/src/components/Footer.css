@@ -1,13 +1,13 @@
 @font-face {
-    font-family: 'Transforma';
-    src: url('./fonts/TransformaSans_Trial-Medium.ttf') format('truetype');
+    font-family: 'Montserrat';
+    src: url('./fonts/Montserrat-Medium.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Transforma';
-    src: url('./fonts/TransformaSans_Trial-SemiBold.ttf') format('truetype');
+    font-family: 'Montserrat';
+    src: url('./fonts/Montserrat-SemiBold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
 }
@@ -28,7 +28,7 @@
     position: relative;
     bottom: 0;
     flex-shrink: 0;
-    text-align: center; /* Центрирование текста */
+    text-align: center;
 }
 
 .footer-content {

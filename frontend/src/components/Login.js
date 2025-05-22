@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from './UserContext';
 import './Register.css';
 
 const Login = () => {
-    const [formData, setFormData] = useState({ username: '', password: '' });
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+    const { login } = useContext(UserContext);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,50 +20,57 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/accounts/api/login/', formData);
+            // 1. Отправляем данные для входа
+            const response = await axios.post(
+                'http://127.0.0.1:8000/accounts/api/login/',
+                formData
+            );
 
             if (response.status === 200) {
+                // 2. Получаем профиль пользователя
                 const profileResponse = await axios.get(
                     `http://127.0.0.1:8000/accounts/api/profile/?userid=${response.data.userid}`
                 );
 
-                localStorage.setItem('user', JSON.stringify(profileResponse.data));
-                navigate('/home');
+                login(profileResponse.data);
+
+                navigate('/');
             }
         } catch (error) {
-            setMessage(error.response?.data?.error || 'Login failed');
+            setMessage(error.response?.data?.error || 'Ошибка входа');
+            console.error('Login error:', error);
         }
     };
 
     return (
         <div className="form-container">
-            <h1>Login</h1>
+            <h1>Вход</h1>
             <form onSubmit={handleSubmit}>
                 <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={formData.username}
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
                     onChange={handleChange}
                     required
                 />
                 <input
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    placeholder="Пароль"
                     value={formData.password}
                     onChange={handleChange}
                     required
                 />
-                <button type="submit">Login</button>
+                <button type="submit">Войти</button>
             </form>
 
-            {message && <p>{message}</p>}
+            {message && <p className="error-message">{message}</p>}
 
             <div className="switch-container">
                 <p>
-                    Don&apos;t have an account?
-                    <span onClick={() => navigate('/register')}> Register</span>
+                    Впервые у нас?
+                    <span onClick={() => navigate('/register')}> Регистрация</span>
                 </p>
             </div>
         </div>

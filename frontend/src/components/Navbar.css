@@ -1,13 +1,13 @@
 @font-face {
-    font-family: 'Transforma';
-    src: url('./fonts/TransformaSans_Trial-Medium.ttf') format('truetype');
+    font-family: 'Montserrat';
+    src: url('./fonts/Montserrat-Medium.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Transforma';
-    src: url('./fonts/TransformaSans_Trial-SemiBold.ttf') format('truetype');
+    font-family: 'Montserrat';
+    src: url('./fonts/Montserrat-SemiBold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
 }
@@ -20,12 +20,12 @@
 
 .navbar {
     background-color: var(--white);
-    padding: 12px 30px;
+    padding: 0px 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    font-family: 'Transforma', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .app-container {
@@ -36,8 +36,8 @@
 }
 
 .logo {
-    width: 65px;
-    height: 65px;
+    width: 300px;
+    height: 110px;
 }
 
 .project-title {
@@ -100,9 +100,15 @@
 }
 
 .profile-avatar {
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
     border-radius: 50%;
     border: 2px solid var(--light-cyan);
     object-fit: cover;
+}
+
+.logo-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }

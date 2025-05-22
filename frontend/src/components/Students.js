@@ -32,7 +32,21 @@ const Students = () => {
                 const data = await response.json();
 
                 if (Array.isArray(data.students)) {
-                    setStudents(data.students); // Предполагается, что isSelected уже есть
+                    // Получаем список всех выбранных учеников (любым преподавателем)
+                    const selectedStudentsResponse = await fetch('http://127.0.0.1:8000/accounts/api/all_selected_students/', {
+                        credentials: 'include',
+                    });
+                    const selectedStudentsData = await selectedStudentsResponse.json();
+                    const selectedStudentIds = selectedStudentsData.selected_students || [];
+
+                    // Обогащаем данные студентов информацией о выборе
+                    const enrichedStudents = data.students.map(student => ({
+                        ...student,
+                        isSelected: student.isSelected,
+                        isSelectedByOther: selectedStudentIds.includes(student.id) && !student.isSelected
+                    }));
+
+                    setStudents(enrichedStudents);
                 } else {
                     throw new Error('Неверный формат данных от сервера');
                 }
@@ -52,6 +66,13 @@ const Students = () => {
             const storedUser = localStorage.getItem('user');
             const userObj = JSON.parse(storedUser);
 
+            // Проверяем, не выбран ли ученик другим админом
+            const student = students.find(s => s.id === studentId);
+            if (isSelected && student.isSelectedByOther) {
+                setError('Этот ученик уже выбран другим преподавателем.');
+                return;
+            }
+
             const response = await fetch('http://127.0.0.1:8000/accounts/api/assign_student/', {
                 method: 'POST',
                 headers: {
@@ -69,11 +90,20 @@ const Students = () => {
                 throw new Error('Ошибка при обновлении ученика');
             }
 
-            setStudents((prevStudents) =>
-                prevStudents.map((student) =>
-                    student.id === studentId ? { ...student, isSelected } : student
-                )
-            );
+            // После успешного обновления, обновляем список студентов
+            const updatedStudents = students.map(student => {
+                if (student.id === studentId) {
+                    return {
+                        ...student,
+                        isSelected: isSelected,
+                        isSelectedByOther: false
+                    };
+                }
+                return student;
+            });
+
+            setStudents(updatedStudents);
+            setError('');
         } catch (err) {
             setError('Не удалось закрепить ученика.');
             console.error(err);
@@ -90,22 +120,36 @@ const Students = () => {
                 ) : error ? (
                     <p style={{ color: 'red' }}>{error}</p>
                 ) : students.length > 0 ? (
-                    <ul className="students-list">
-                        {students.map((student) => (
-                            <li key={student.id} className="student-item">
-                                <strong>{student.username}</strong> — {student.email}
-                                <button
-                                    onClick={() =>
-                                        handleStudentSelection(student.id, !student.isSelected)
-                                    }
-                                    style={{ marginLeft: '10px' }}
-                                    disabled={student.isSelected}
-                                >
-                                    {student.isSelected ? 'УЖЕ ВЫБРАН' : 'ВЫБРАТЬ УЧЕНИКА'}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+                    <>
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                        <ul className="students-list">
+                            {students.map((student) => (
+                                <li key={student.id} className="student-item">
+                                    <div className="student-info">
+                                        <span>{student.email}</span>
+                                    </div>
+                                    <button
+                                        onClick={() =>
+                                            handleStudentSelection(student.id, !student.isSelected)
+                                        }
+                                        className={`selection-button ${student.isSelected
+                                            ? 'selected'
+                                            : student.isSelectedByOther
+                                                ? 'selected-by-other'
+                                                : ''
+                                            }`}
+                                        disabled={student.isSelectedByOther}
+                                    >
+                                        {student.isSelected
+                                            ? 'ВЫБРАН ВАМИ'
+                                            : student.isSelectedByOther
+                                                ? 'ВЫБРАН ДРУГИМ'
+                                                : 'ВЫБРАТЬ УЧЕНИКА'}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
                 ) : (
                     <p>Ученики не найдены.</p>
                 )}

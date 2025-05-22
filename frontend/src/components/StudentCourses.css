@@ -1,0 +1,238 @@
+/* Общие стили */
+.student-courses-page,
+.student-course-page,
+.student-lesson-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.loading,
+.error,
+.no-data {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+}
+
+.error {
+    color: #dc3545;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: #0066cc;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+    text-align: left;
+}
+
+.back-btn:hover {
+    text-decoration: underline;
+}
+
+/* Стили для списка курсов */
+.courses-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    flex: 1;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.course-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.course-cover {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.course-content {
+    padding: 1.5rem;
+}
+
+.course-content h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+}
+
+.course-description {
+    color: #666;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.view-course-btn {
+    display: inline-block;
+    background-color: #0066cc;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.view-course-btn:hover {
+    background-color: #0052a3;
+}
+
+/* Стили для деталей курса */
+.course-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    flex: 1;
+}
+
+.course-header {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.course-header .course-cover {
+    width: 300px;
+    height: 200px;
+    border-radius: 8px;
+}
+
+.course-info {
+    flex: 1;
+}
+
+.course-info h1 {
+    margin-top: 0;
+}
+
+.lessons-list {
+    margin-top: 1rem;
+}
+
+.lesson-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.lesson-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.view-lesson-btn {
+    background-color: #0066cc;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.view-lesson-btn:hover {
+    background-color: #0052a3;
+}
+
+/* Стили для деталей урока */
+.lesson-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    flex: 1;
+}
+
+.lesson-header {
+    margin-bottom: 2rem;
+}
+
+.video-section,
+.materials-section,
+.assignments-section {
+    margin-bottom: 3rem;
+}
+
+.lesson-video {
+    width: 100%;
+    max-height: 500px;
+    border-radius: 8px;
+    background: #000;
+}
+
+.files-list {
+    margin-top: 1rem;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.file-link {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.file-link:hover {
+    text-decoration: underline;
+}
+
+.file-size {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.assignments-list {
+    margin-top: 1rem;
+}
+
+.assignment-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.assignment-image {
+    max-width: 100%;
+    max-height: 300px;
+    margin: 1rem 0;
+    border-radius: 4px;
+}
+
+.no-lessons,
+.no-assignments {
+    color: #666;
+    font-style: italic;
+}

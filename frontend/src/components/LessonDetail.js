@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -7,183 +7,389 @@ import './LessonDetail.css';
 
 const LessonDetail = () => {
   const { lessonId } = useParams();
-  const [lesson, setLesson] = useState(null);
-  const [description, setDescription] = useState(null);
-  const [files, setFiles] = useState([]);
-  const [error, setError] = useState('');
+  const [data, setData] = useState({
+    lesson: null,
+    files: [],
+    sections: [],
+    attachedAssignments: []
+  });
+  const [selectedAssignments, setSelectedAssignments] = useState([]);
+  const [expandedSections, setExpandedSections] = useState({});
   const [file, setFile] = useState(null);
-  const [allAssignments, setAllAssignments] = useState([]);
-  const [selectedAssignmentIds, setSelectedAssignmentIds] = useState([]);
-  const [homework, setHomework] = useState([]);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState({
+    lesson: true,
+    sections: true,
+    file: false,
+    homework: false
+  });
+  const [error, setError] = useState('');
 
+  // Загрузка данных урока и прикрепленных заданий
   useEffect(() => {
-    const fetchLessonDetails = async () => {
+    const fetchLessonData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/accounts/api/lessons/${lessonId}/files/`);
-        if (response.data.status === 'success') {
-          setLesson(response.data.lesson_title);
-          setDescription(response.data.lesson_description);
-          setFiles(response.data.materials || []);
-        } else {
-          setError(response.data.message || 'Ошибка при загрузке файлов');
-        }
+        const response = await axios.get(`http://127.0.0.1:8000/accounts/api/lessons/${lessonId}/`);
+
+        setData(prev => ({
+          ...prev,
+          lesson: {
+            title: response.data.lesson_title,
+            description: response.data.lesson_description
+          },
+          files: response.data.materials || [],
+          attachedAssignments: response.data.attached_assignments || []
+        }));
       } catch (err) {
-        setError('Ошибка при загрузке данных занятия');
-        console.error(err);
+        setError('Не удалось загрузить данные урока');
+        console.error('Ошибка загрузки урока:', err);
+      } finally {
+        setLoading(prev => ({ ...prev, lesson: false }));
       }
     };
 
-    fetchLessonDetails();
+    fetchLessonData();
   }, [lessonId]);
 
+  // Загрузка разделов с заданиями
   useEffect(() => {
-    const fetchAssignments = async () => {
+    const fetchSections = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:8000/accounts/api/assignments/');
-        if (res.data.status === 'success') {
-          setAllAssignments(res.data.assignments);
+        const response = await axios.get('http://127.0.0.1:8000/accounts/api/assignment_sections/');
+
+        // Проверяем структуру ответа
+        if (response.data.status === 'success' && Array.isArray(response.data.sections)) {
+          // Для каждого раздела загружаем задания
+          const sectionsWithAssignments = await Promise.all(
+            response.data.sections.map(async section => {
+              try {
+                const assignmentsRes = await axios.get(
+                  `http://127.0.0.1:8000/accounts/api/section_assignments/${section.id}/`
+                );
+
+                return {
+                  ...section,
+                  assignments: assignmentsRes.data.status === 'success'
+                    ? assignmentsRes.data.assignments
+                    : []
+                };
+              } catch (err) {
+                console.error(`Ошибка загрузки заданий для раздела ${section.id}:`, err);
+                return { ...section, assignments: [] };
+              }
+            })
+          );
+
+          setData(prev => ({ ...prev, sections: sectionsWithAssignments }));
+        } else {
+          throw new Error('Неверный формат данных разделов');
         }
       } catch (err) {
-        console.error('Ошибка при загрузке заданий', err);
+        setError('Не удалось загрузить разделы с заданиями');
+        console.error('Ошибка загрузки разделов:', err);
+      } finally {
+        setLoading(prev => ({ ...prev, sections: false }));
       }
     };
 
-    const fetchHomework = async () => {
-      try {
-        const response = await axios.get(`http://127.0.0.1:8000/accounts/api/lessons/${lessonId}/homework/`);
-        if (response.data.status === 'success') {
-          setHomework(response.data.assignments || []);
-        }
-      } catch (err) {
-        console.error('Ошибка при загрузке домашнего задания', err);
-      }
-    };
-
-    fetchHomework();
-    fetchAssignments();
+    fetchSections();
   }, []);
 
-  const toggleAssignment = (id) => {
-    setSelectedAssignmentIds(prev =>
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-    );
+  const toggleSection = (sectionId) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [sectionId]: !prev[sectionId]
+    }));
   };
 
-  const submitHomework = async () => {
-    try {
-      const res = await axios.post(`http://127.0.0.1:8000/accounts/api/lessons/${lessonId}/homework/`, {
-        assignment_ids: selectedAssignmentIds
-      });
-      if (res.data.status === 'success') {
-        alert('Домашнее задание успешно составлено');
-      }
-    } catch (err) {
-      alert('Ошибка при сохранении домашнего задания');
-      console.error(err);
-    }
-  };
+  const toggleAssignmentSelection = (assignment) => {
+    setSelectedAssignments(prev => {
+      const isAttached = data.attachedAssignments.some(a => a.id === assignment.id);
+      if (isAttached) return prev;
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+      const isSelected = prev.some(a => a.id === assignment.id);
+      return isSelected
+        ? prev.filter(a => a.id !== assignment.id)
+        : [...prev, assignment];
+    });
   };
 
   const handleFileUpload = async (e) => {
     e.preventDefault();
-
-    if (!file) return alert("Выберите файл");
-
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('name', file.name);
+    if (!file) return;
 
     try {
+      setLoading(prev => ({ ...prev, file: true }));
+      setError('');
+
+      const formData = new FormData();
+      formData.append('file', file);
+
       const response = await axios.post(
         `http://127.0.0.1:8000/accounts/api/lessons/${lessonId}/upload_files/`,
-        formData
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
       );
+
       if (response.data.status === 'success') {
-        alert('Файл успешно добавлен');
-        navigate(`/lessons/${lessonId}`);
+        setData(prev => ({
+          ...prev,
+          files: [...prev.files, response.data.file]
+        }));
+        setFile(null);
+        e.target.reset();
       }
     } catch (err) {
-      alert('Ошибка при добавлении файла');
-      console.error(err);
+      setError('Ошибка при загрузке файла');
+      console.error('Ошибка загрузки файла:', err);
+    } finally {
+      setLoading(prev => ({ ...prev, file: false }));
     }
   };
 
-  if (error) return <p className="error-text">{error}</p>;
-  if (!lesson) return <p className="loading-text">Загрузка...</p>;
+  const submitHomework = async () => {
+    try {
+      setLoading(prev => ({ ...prev, homework: true }));
+      setError('');
+
+      const response = await axios.post(
+        `http://127.0.0.1:8000/accounts/api/lessons/${lessonId}/homework/`,
+        { assignment_ids: selectedAssignments.map(a => a.id) }
+      );
+
+      if (response.data.status === 'success') {
+        // Обновляем данные после успешного сохранения
+        const lessonResponse = await axios.get(`http://127.0.0.1:8000/accounts/api/lessons/${lessonId}/`);
+        setData(prev => ({
+          ...prev,
+          attachedAssignments: lessonResponse.data.attached_assignments || []
+        }));
+        setSelectedAssignments([]);
+      }
+    } catch (err) {
+      setError('Ошибка при сохранении заданий');
+      console.error('Ошибка сохранения заданий:', err);
+    } finally {
+      setLoading(prev => ({ ...prev, homework: false }));
+    }
+  };
+
+  const removeAssignment = async (assignmentId) => {
+    try {
+      setLoading(prev => ({ ...prev, homework: true }));
+      setError('');
+
+      const response = await axios.delete(
+        `http://127.0.0.1:8000/accounts/api/lessons/${lessonId}/homework/?assignment_id=${assignmentId}`
+      );
+
+      if (response.data.status === 'success') {
+        // Обновляем данные после успешного удаления
+        const lessonResponse = await axios.get(`http://127.0.0.1:8000/accounts/api/lessons/${lessonId}/`);
+        setData(prev => ({
+          ...prev,
+          attachedAssignments: lessonResponse.data.attached_assignments || []
+        }));
+      }
+    } catch (err) {
+      setError('Ошибка при удалении задания');
+      console.error('Ошибка удаления задания:', err);
+    } finally {
+      setLoading(prev => ({ ...prev, homework: false }));
+    }
+  };
+
+  // Проверяем, загружаются ли основные данные
+  if (loading.lesson || loading.sections) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Загрузка данных...</p>
+      </div>
+    );
+  }
+
+  // Проверяем наличие ошибок
+  if (error) {
+    return (
+      <div className="error-container">
+        <p className="error-message">{error}</p>
+        <button onClick={() => window.location.reload()}>Попробовать снова</button>
+      </div>
+    );
+  }
+
+  // Проверяем, загрузился ли урок
+  if (!data.lesson) {
+    return <p className="no-data">Данные урока не найдены</p>;
+  }
 
   return (
-    <div>
+    <div className="lesson-page">
       <Navbar />
-      <div className="lesson-detail-container">
-        <h2>{lesson}</h2>
-        <p>{description}</p>
+      <div className="lesson-content">
+        <h1>{data.lesson.title}</h1>
+        <div className="lesson-description">{data.lesson.description}</div>
 
-        <h3>Файлы</h3>
-        <form onSubmit={handleFileUpload}>
-          <input type="file" onChange={handleFileChange} />
-          <button type="submit">Загрузить файл</button>
-        </form>
+        {/* Секция материалов */}
+        <div className="section materials-section">
+          <h2>Материалы урока</h2>
+          <form onSubmit={handleFileUpload} className="file-upload-form">
+            <input
+              type="file"
+              onChange={(e) => setFile(e.target.files[0])}
+              disabled={loading.file}
+            />
+            <button type="submit" disabled={loading.file || !file}>
+              {loading.file ? 'Загрузка...' : 'Загрузить файл'}
+            </button>
+          </form>
 
-        <ul>
-          {files.length > 0 ? (
-            files.map((file, index) => (
-              <li key={index}>
-                <a href={`http://127.0.0.1:8000${file.url}`} target="_blank" rel="noopener noreferrer">
-                  {file.filename || 'Файл'}
-                </a>
-                <br />
-                <small>Размер: {file.size} байт</small><br />
-                <small>Загружен: {file.uploaded_at}</small>
-              </li>
-            ))
-          ) : (
-            <p>Файлы отсутствуют</p>
-          )}
-        </ul>
-
-        <h3>Домашнее задание</h3>
-        {homework.length > 0 ? (
-          <div className="assignment-select-grid">
-            {homework.map((assignment) => (
-              <div key={assignment.id} className="assignment-card">
-                <h4>{assignment.question}</h4>
-                {assignment.image && (
-                  <img
-                    src={`http://127.0.0.1:8000${assignment.image}`}
-                    alt="assignment"
-                  />
-                )}
-                <p><strong>Ответ:</strong> {assignment.answer}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>Домашнее задание не прикреплено</p>
-        )}
-
-        <h3>Составить домашнее задание</h3>
-        <div className="assignment-select-grid">
-          {allAssignments.map((a) => (
-            <div key={a.id} className="assignment-card">
-              <input
-                type="checkbox"
-                checked={selectedAssignmentIds.includes(a.id)}
-                onChange={() => toggleAssignment(a.id)}
-              />
-              <strong>{a.question}</strong>
-              {a.image && (
-                <img src={`http://127.0.0.1:8000/media/${a.image}`} alt="assignment" />
-              )}
-              <p>{a.answer}</p>
+          {data.files.some(file => file.filename.toLowerCase().match(/\.(mp4|webm|ogg)$/)) && (
+            <div className="video-lesson">
+              <h3>Видеоурок</h3>
+              {data.files
+                .filter(file => file.filename.toLowerCase().match(/\.(mp4|webm|ogg)$/))
+                .map((file, index) => (
+                  <div key={index} className="video-container">
+                    <div className="video-wrapper">
+                      <video controls style={{ maxWidth: '600px', borderRadius: '8px', width: '100%' }}>
+                        <source src={file.url} />
+                        Ваш браузер не поддерживает встроенное видео.
+                      </video>
+                    </div>
+                  </div>
+                ))}
             </div>
-          ))}
+          )}
+
+          {/* Остальные материалы */}
+          {data.files.some(file => !file.filename.toLowerCase().match(/\.(mp4|webm|ogg)$/)) && (
+            <div className="lesson-materials">
+              <h3>Материалы</h3>
+              {data.files
+                .filter(file => !file.filename.toLowerCase().match(/\.(mp4|webm|ogg)$/))
+                .map((file, index) => (
+                  <div key={index} className="file-item">
+                    <a href={file.url} target="_blank" rel="noopener noreferrer">
+                      {file.filename}
+                    </a>
+                    <span className="file-size">{(file.size / 1024 / 1024).toFixed(1)} MB</span>
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
-        <div className="centered-button">
-          <button onClick={submitHomework}>Сохранить домашнее задание</button>
+
+        {/* Секция прикрепленных заданий */}
+        <div className="section assignments-section">
+          <h2>Прикрепленные задания</h2>
+          {data.attachedAssignments.length > 0 ? (
+            <div className="attached-assignments">
+              {data.attachedAssignments.map(assignment => (
+                <div key={assignment.id} className="assignment-card">
+                  <div className="assignment-header">
+                    <h3>{assignment.question}</h3>
+                    <button
+                      onClick={() => removeAssignment(assignment.id)}
+                      disabled={loading.homework}
+                    >
+                      Удалить
+                    </button>
+                  </div>
+                  {assignment.image && (
+                    <img
+                      src={assignment.image}
+                      alt="Иллюстрация задания"
+                      className="assignment-image"
+                    />
+                  )}
+                  <div className="assignment-answer">
+                    <strong>Ответ:</strong> {assignment.answer}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="no-assignments">Нет прикрепленных заданий</p>
+          )}
+        </div>
+
+        {/* Секция добавления заданий */}
+        <div className="section add-assignments-section">
+          <h2>Добавить задания из разделов</h2>
+
+          {data.sections.length > 0 ? (
+            <div className="sections-container">
+              {data.sections.map(section => (
+                <div key={section.id} className="section-item">
+                  <div
+                    className="section-header"
+                    onClick={() => toggleSection(section.id)}
+                  >
+                    <h3>{section.title}</h3>
+                    <span className="toggle-icon">
+                      {expandedSections[section.id] ? '▼' : '►'}
+                    </span>
+                  </div>
+
+                  {expandedSections[section.id] && (
+                    <div className="assignments-list">
+                      {section.assignments.length > 0 ? (
+                        section.assignments.map(assignment => {
+                          const isAttached = data.attachedAssignments.some(
+                            a => a.id === assignment.id
+                          );
+                          const isSelected = selectedAssignments.some(
+                            a => a.id === assignment.id
+                          );
+
+                          return (
+                            <div
+                              key={assignment.id}
+                              className={`assignment-item ${isAttached ? 'attached' : ''
+                                } ${isSelected ? 'selected' : ''}`}
+                            >
+                              <input
+                                type="checkbox"
+                                id={`assign-${assignment.id}`}
+                                checked={isSelected}
+                                onChange={() => toggleAssignmentSelection(assignment)}
+                                disabled={isAttached}
+                              />
+                              <label htmlFor={`assign-${assignment.id}`}>
+                                {assignment.question}
+                                {isAttached && (
+                                  <span className="attached-badge">(уже прикреплено)</span>
+                                )}
+                              </label>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <p className="no-assignments">В этом разделе нет заданий</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="no-sections">Нет доступных разделов с заданиями</p>
+          )}
+
+          {selectedAssignments.length > 0 && (
+            <div className="submit-container">
+              <button
+                onClick={submitHomework}
+                className="submit-btn"
+                disabled={loading.homework}
+              >
+                {loading.homework
+                  ? 'Сохранение...'
+                  : `Прикрепить выбранные задания (${selectedAssignments.length})`}
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <Footer />

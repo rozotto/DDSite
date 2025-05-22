@@ -1,0 +1,153 @@
+.course-creator {
+    display: flex;
+    min-height: 80vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.courses-list {
+    width: 300px;
+    padding: 20px;
+    background-color: #f5f7fa;
+    border-right: 1px solid #e1e4e8;
+}
+
+.create-course-form {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.create-course-form input,
+.create-course-form textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.create-course-form textarea {
+    min-height: 80px;
+}
+
+.create-course-form button {
+    width: 100%;
+    padding: 8px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.courses-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.courses-list li {
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.courses-list li:hover {
+    background-color: #e3f2fd;
+}
+
+.courses-list li.active {
+    background-color: #bbdefb;
+    font-weight: 500;
+}
+
+.course-editor {
+    flex: 1;
+    padding: 20px;
+}
+
+.course-lessons {
+    margin-bottom: 30px;
+}
+
+.lessons-container {
+    min-height: 100px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.lesson-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.remove-btn {
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.available-lessons ul {
+    list-style: none;
+    padding: 0;
+}
+
+.available-lessons li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.add-btn {
+    padding: 5px 10px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+}
+
+.error {
+    color: #e74c3c;
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+}
+
+/* Drag and drop styles */
+[data-rbd-drag-handle-context-id] {
+    cursor: grab;
+}
+
+[data-rbd-draggable-context-id] {
+    user-select: none;
+}
+
+[data-rbd-draggable-context-id]:active {
+    cursor: grabbing;
+}
